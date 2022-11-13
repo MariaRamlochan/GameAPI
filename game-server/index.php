@@ -27,6 +27,7 @@ require_once './includes/routes/games_routes.php';
 //-- Step 6)
 // TODO: And here we define app routes.
 $app->get("/games", "handleGetAllGames");
+$app->get("/games/{game_id}", "handleGetGameById");
 
 // Run the app.
 $app->run();
