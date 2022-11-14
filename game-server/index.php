@@ -23,11 +23,17 @@ $app->setBasePath("/GameAPI/game-server");
 
 //-- Step 5) Include the files containing the definitions of the callbacks.
 require_once './includes/routes/games_routes.php';
+require_once './includes/routes/genres_routes.php';
 
 //-- Step 6)
 // TODO: And here we define app routes.
+
+//----------------- GAME -------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
+//----------------- GENRE ------------------------------
+$app->get("/genres", "handleGetAllGenres");
+$app->get("/genres/{genre_id}", "handleGetGenreById");
 
 // Run the app.
 $app->run();
