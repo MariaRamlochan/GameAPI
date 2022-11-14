@@ -27,28 +27,33 @@ require_once './includes/routes/games_routes.php';
 require_once './includes/routes/genres_routes.php';
 require_once './includes/routes/platforms_routes.php';
 require_once './includes/routes/publishers_routes.php';
+require_once './includes/routes/requirements_routes.php';
+require_once './includes/routes/reviews_routes.php';
 
 //-- Step 6)
 // TODO: And here we define app routes.
 
-//-------------------------- DEVELOPER --------------------------------
+//-------------------------- DEVELOPER ---------------------------------
 $app->get("/developers", "handleGetAllDevelopers");
 $app->get("/developers/{developer_id}", "handleGetDeveloperById");
-//-------------------------- GAME -------------------------------------
+//-------------------------- GAME --------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
-//-------------------------- GENRE ------------------------------------
+//-------------------------- GENRE -------------------------------------
 $app->get("/genres", "handleGetAllGenres");
 $app->get("/genres/{genre_id}", "handleGetGenreById");
-//-------------------------- PLATFORM ---------------------------------
+//-------------------------- PLATFORM ----------------------------------
 $app->get("/platforms", "handleGetAllPlatforms");
 $app->get("/platforms/{platform_id}", "handleGetPlatformById");
-//-------------------------- PUBLISHER --------------------------------
+//-------------------------- PUBLISHER ---------------------------------
 $app->get("/publishers", "handleGetAllPublishers");
 $app->get("/publishers/{publisher_id}", "handleGetPublisherById");
-//-------------------------- REQUIREMENT ------------------------------
+//-------------------------- REQUIREMENT -------------------------------
 $app->get("/requirements", "handleGetAllRequirements");
 $app->get("/requirements/{requirement_id}", "handleGetRequirementById");
+//-------------------------- REVIEW ------------------------------------
+$app->get("/reviews", "handleGetAllReviews");
+$app->get("/reviews/{review_id}", "handleGetReviewById");
 
 // Run the app.
 $app->run();
