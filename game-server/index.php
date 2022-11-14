@@ -28,12 +28,15 @@ require_once './includes/routes/genres_routes.php';
 //-- Step 6)
 // TODO: And here we define app routes.
 
-//----------------- GAME -------------------------------
+//---------------------- GAME ---------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
-//----------------- GENRE ------------------------------
+//---------------------- GENRE --------------------------------
 $app->get("/genres", "handleGetAllGenres");
 $app->get("/genres/{genre_id}", "handleGetGenreById");
+//---------------------- PLATFORM -----------------------------
+$app->get("/platforms", "handleGetAllPlatforms");
+$app->get("/platforms/{platform_id}", "handleGetPlatformById");
 
 // Run the app.
 $app->run();
