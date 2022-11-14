@@ -1,6 +1,6 @@
 <?php
 
-class GameModel extends BaseModel {
+class PublisherModel extends BaseModel {
 
     /**
      * A model class for the `publisher` database table.
@@ -59,7 +59,7 @@ class GameModel extends BaseModel {
      * @param int $publisher_id the id of the publisher.
      * @return array a list of publishers.
      */
-    public function getPublisherbByGameId($publisher_id) {
+    public function getPublisherByGameId($publisher_id) {
         $sql = "SELECT * FROM publisher WHERE GameID = ?";
         $data = $this->run($sql, [$publisher_id])->fetchAll();
         return $data;
