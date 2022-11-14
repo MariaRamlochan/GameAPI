@@ -65,4 +65,14 @@ class GameModel extends BaseModel {
         return $data;
     }
 
+    /**
+     * Retrieve a list of games of a given genre.
+     * @param int $game_id the id of the genre.
+     * @return array a list of games.
+     */
+    public function getGameByGenreId($game_id) {
+        $sql = "SELECT * FROM game WHERE GenreID = ?";
+        $data = $this->run($sql, [$game_id])->fetchAll();
+        return $data;
+    }
 }
