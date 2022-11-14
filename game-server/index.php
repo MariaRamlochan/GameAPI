@@ -22,30 +22,33 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->setBasePath("/GameAPI/game-server");
 
 //-- Step 5) Include the files containing the definitions of the callbacks.
+require_once './includes/routes/developers_routes.php';
 require_once './includes/routes/games_routes.php';
 require_once './includes/routes/genres_routes.php';
 require_once './includes/routes/platforms_routes.php';
 require_once './includes/routes/publishers_routes.php';
-require_once './includes/routes/developers_routes.php';
 
 //-- Step 6)
 // TODO: And here we define app routes.
 
-//---------------------- GAME ------------------------------------
+//-------------------------- DEVELOPER --------------------------------
+$app->get("/developers", "handleGetAllDevelopers");
+$app->get("/developers/{developer_id}", "handleGetDeveloperById");
+//-------------------------- GAME -------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
-//---------------------- GENRE -----------------------------------
+//-------------------------- GENRE ------------------------------------
 $app->get("/genres", "handleGetAllGenres");
 $app->get("/genres/{genre_id}", "handleGetGenreById");
-//---------------------- PLATFORM --------------------------------
+//-------------------------- PLATFORM ---------------------------------
 $app->get("/platforms", "handleGetAllPlatforms");
 $app->get("/platforms/{platform_id}", "handleGetPlatformById");
-//---------------------- PUBLISHER -------------------------------
+//-------------------------- PUBLISHER --------------------------------
 $app->get("/publishers", "handleGetAllPublishers");
 $app->get("/publishers/{publisher_id}", "handleGetPublisherById");
-//---------------------- DEVELOPER -------------------------------
-$app->get("/developers", "handleGetAllDevelopers");
-$app->get("/developers/{developers_id}", "handleGetDeveloperById");
+//-------------------------- REQUIREMENT ------------------------------
+$app->get("/requirements", "handleGetAllRequirements");
+$app->get("/requirements/{requirement_id}", "handleGetRequirementById");
 
 // Run the app.
 $app->run();
