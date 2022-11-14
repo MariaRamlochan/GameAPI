@@ -26,22 +26,26 @@ require_once './includes/routes/games_routes.php';
 require_once './includes/routes/genres_routes.php';
 require_once './includes/routes/platforms_routes.php';
 require_once './includes/routes/publishers_routes.php';
+require_once './includes/routes/developers_routes.php';
 
 //-- Step 6)
 // TODO: And here we define app routes.
 
-//---------------------- GAME ---------------------------------
+//---------------------- GAME ------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
-//---------------------- GENRE --------------------------------
+//---------------------- GENRE -----------------------------------
 $app->get("/genres", "handleGetAllGenres");
 $app->get("/genres/{genre_id}", "handleGetGenreById");
-//---------------------- PLATFORM -----------------------------
+//---------------------- PLATFORM --------------------------------
 $app->get("/platforms", "handleGetAllPlatforms");
 $app->get("/platforms/{platform_id}", "handleGetPlatformById");
-//---------------------- PUBLISHER -----------------------------
+//---------------------- PUBLISHER -------------------------------
 $app->get("/publishers", "handleGetAllPublishers");
 $app->get("/publishers/{publisher_id}", "handleGetPublisherById");
+//---------------------- DEVELOPER -------------------------------
+$app->get("/developers", "handleGetAllDevelopers");
+$app->get("/developers/{developers_id}", "handleGetDeveloperById");
 
 // Run the app.
 $app->run();
