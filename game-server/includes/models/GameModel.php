@@ -48,7 +48,7 @@ class GameModel extends BaseModel {
      * @param int $game_id the id of the developer.
      * @return array a list of games.
      */
-    public function getGameByDeveloperId($game_id) {
+    public function getGamesByDeveloperId($game_id) {
         $sql = "SELECT * FROM game WHERE DeveloperID = ?";
         $data = $this->run($sql, [$game_id])->fetchAll();
         return $data;
@@ -59,7 +59,7 @@ class GameModel extends BaseModel {
      * @param int $game_id the id of the publisher.
      * @return array a list of games.
      */
-    public function getGameByPublisherId($game_id) {
+    public function getGamesByPublisherId($game_id) {
         $sql = "SELECT * FROM game WHERE PublisherID = ?";
         $data = $this->run($sql, [$game_id])->fetchAll();
         return $data;
@@ -70,7 +70,7 @@ class GameModel extends BaseModel {
      * @param int $game_id the id of the genre.
      * @return array a list of games.
      */
-    public function getGameByGenreId($game_id) {
+    public function getGamesByGenreId($game_id) {
         $sql = "SELECT * FROM game WHERE GenreID = ?";
         $data = $this->run($sql, [$game_id])->fetchAll();
         return $data;

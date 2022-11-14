@@ -37,7 +37,7 @@ class PlatformModel extends BaseModel {
      * @param int $platform_id the id of the platform.
      * @return array an array containing information about a given platform.
      */
-    public function getPlatformById($platform_id) {
+    public function getPlatformsById($platform_id) {
         $sql = "SELECT * FROM platform WHERE PlatformId = ?";
         $data = $this->run($sql, [$platform_id])->fetch();
         return $data;

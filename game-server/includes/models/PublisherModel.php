@@ -48,7 +48,7 @@ class PublisherModel extends BaseModel {
      * @param int $publisher_id the id of the developer.
      * @return array a list of publishers.
      */
-    public function getPublisherByDeveloperId($publisher_id) {
+    public function getPublishersByDeveloperId($publisher_id) {
         $sql = "SELECT * FROM publisher WHERE DeveloperID = ?";
         $data = $this->run($sql, [$publisher_id])->fetchAll();
         return $data;
@@ -59,7 +59,7 @@ class PublisherModel extends BaseModel {
      * @param int $publisher_id the id of the publisher.
      * @return array a list of publishers.
      */
-    public function getPublisherByGameId($publisher_id) {
+    public function getPublishersByGameId($publisher_id) {
         $sql = "SELECT * FROM publisher WHERE GameID = ?";
         $data = $this->run($sql, [$publisher_id])->fetchAll();
         return $data;
