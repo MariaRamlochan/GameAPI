@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2022 at 06:18 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Nov 15, 2022 at 12:38 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `gameapidb`
 --
+CREATE DATABASE IF NOT EXISTS `gameapidb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `gameapidb`;
 
 -- --------------------------------------------------------
 
@@ -27,6 +29,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `author`
 --
 
+DROP TABLE IF EXISTS `author`;
 CREATE TABLE `author` (
   `author_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -40,6 +43,7 @@ CREATE TABLE `author` (
 -- Table structure for table `game`
 --
 
+DROP TABLE IF EXISTS `game`;
 CREATE TABLE `game` (
   `game_id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
@@ -60,6 +64,7 @@ CREATE TABLE `game` (
 -- Table structure for table `review`
 --
 
+DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review` (
   `review_id` int(11) NOT NULL,
   `review_text` text NOT NULL,
