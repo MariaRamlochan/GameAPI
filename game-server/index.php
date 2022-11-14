@@ -22,6 +22,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->setBasePath("/GameAPI/game-server");
 
 //-- Step 5) Include the files containing the definitions of the callbacks.
+require_once './includes/routes/authors_routes.php';
 require_once './includes/routes/developers_routes.php';
 require_once './includes/routes/games_routes.php';
 require_once './includes/routes/genres_routes.php';
@@ -33,6 +34,9 @@ require_once './includes/routes/reviews_routes.php';
 //-- Step 6)
 // TODO: And here we define app routes.
 
+//-------------------------- AUTHOR ------------------------------------
+$app->get("/authors", "handleGetAllAuthors");
+$app->get("/authors/{author_id}", "handleGetAuthorById");
 //-------------------------- DEVELOPER ---------------------------------
 $app->get("/developers", "handleGetAllDevelopers");
 $app->get("/developers/{developer_id}", "handleGetDeveloperById");

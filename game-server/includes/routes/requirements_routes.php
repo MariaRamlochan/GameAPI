@@ -60,7 +60,7 @@ function handleGetRequirementById(Request $request, Response $response, array $a
     $requirement_id = $args["requirement_id"];
     if (isset($requirement_id)) {
         // Fetch the info about the specified requirement.
-        $requirement_info = $requirement_model->getDeveloperById($requirement_id);
+        $requirement_info = $requirement_model->getRequirementById($requirement_id);
         if (!$requirement_info) {
             // No matches found?
             $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
