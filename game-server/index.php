@@ -46,6 +46,10 @@ $app->get("/games/{game_id}", "handleGetGameById");
 $app->get("/developers/{developer_id}/games", "handleGetGamesByDeveloperId");
 $app->get("/genres/{genre_id}/games", "handleGetGamesByGenreId");
 $app->get("/publishers/{publisher_id}/games", "handleGetGamesByPublisherId");
+
+$app->post("/games", "handleCreateGames");
+$app->put("/games", "handleUpdateGames");
+$app->delete("/games/{game_id}", "handleDeleteGames");
 //-------------------------- GENRE -------------------------------------
 $app->get("/genres", "handleGetAllGenres");
 $app->get("/genres/{genre_id}", "handleGetGenreById");
