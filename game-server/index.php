@@ -37,6 +37,10 @@ require_once './includes/routes/reviews_routes.php';
 //-------------------------- AUTHOR ------------------------------------
 $app->get("/authors", "handleGetAllAuthors");
 $app->get("/authors/{author_id}", "handleGetAuthorById");
+
+$app->post("/authors", "handleCreateAuthors");
+$app->put("/authors", "handleUpdateAuthors");
+$app->delete("/authors/{author_id}", "handleDeleteAuthors");
 //-------------------------- DEVELOPER ---------------------------------
 $app->get("/developers", "handleGetAllDevelopers");
 $app->get("/developers/{developer_id}", "handleGetDeveloperById");

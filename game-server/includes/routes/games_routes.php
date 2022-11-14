@@ -277,7 +277,7 @@ function handleDeleteGames(Request $request, Response $response, array $args) {
     $data = $request->getParsedBody();
 
     // Retreive the artist from the request's URI.
-    $game_id = $data["game_id"];
+    $game_id = $args["game_id"];
     if (isset($game_id)) {
         // Fetch the info about the specified game.
         $game_model->deleteArtists(array("game_id"=>$game_id));
