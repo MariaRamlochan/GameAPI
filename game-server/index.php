@@ -43,6 +43,9 @@ $app->get("/developers/{developer_id}", "handleGetDeveloperById");
 //-------------------------- GAME --------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
+$app->get("/developers/{developer_id}/games", "handleGetGamesByDeveloperId");
+$app->get("/genres/{genre_id}/games", "handleGetGamesByGenreId");
+$app->get("/publishers/{publisher_id}/games", "handleGetGamesByPublisherId");
 //-------------------------- GENRE -------------------------------------
 $app->get("/genres", "handleGetAllGenres");
 $app->get("/genres/{genre_id}", "handleGetGenreById");
