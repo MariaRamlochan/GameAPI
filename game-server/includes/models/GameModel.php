@@ -82,7 +82,7 @@ class GameModel extends BaseModel {
      * @return array an array containing information about a given game.
      */
     public function getGameById($game_id) {
-        $sql = "SELECT * FROM game WHERE GameId = ?";
+        $sql = "SELECT * FROM game WHERE game_id = ?";
         $data = $this->run($sql, [$game_id])->fetch();
         return $data;
     }

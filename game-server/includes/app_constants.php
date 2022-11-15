@@ -3,7 +3,7 @@
 // Constants for MySQL database configuration/credentials.
 //TODO: change the following values if you have different settings/options.
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'game_db');
+define('DB_NAME', 'gameapidb');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_CHAR', 'utf8mb4');

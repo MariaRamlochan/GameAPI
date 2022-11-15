@@ -72,102 +72,6 @@ function handleGetGameById(Request $request, Response $response, array $args) {
     return $response->withStatus($response_code);
 }
 
-function handleGetGamesByDeveloperId(Request $request, Response $response, array $args) {
-    $game_info = array();
-    $response_data = array();
-    $response_code = HTTP_OK;
-    $game_model = new GameModel();
-
-    // Retreive the game if from the request's URI.
-    $developer_id = $args["developer_id"];
-    if (isset($developer_id)) {
-        // Fetch the info about the specified game.
-        $game_info = $game_model->getGamesByDeveloperId($developer_id);
-        if (!$game_info) {
-            // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified album.");
-            $response->getBody()->write($response_data);
-            return $response->withStatus(HTTP_NOT_FOUND);
-        }
-    }
-    // Handle serve-side content negotiation and produce the requested representation.    
-    $requested_format = $request->getHeader('Accept');
-    //--
-    //-- We verify the requested resource representation.    
-    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($game_info, JSON_INVALID_UTF8_SUBSTITUTE);
-    } else {
-        $response_data = json_encode(getErrorUnsupportedFormat());
-        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
-    }
-    $response->getBody()->write($response_data);
-    return $response->withStatus($response_code);
-}
-
-function handleGetGamesByPublisherId(Request $request, Response $response, array $args) {
-    $game_info = array();
-    $response_data = array();
-    $response_code = HTTP_OK;
-    $game_model = new GameModel();
-
-    // Retreive the game if from the request's URI.
-    $publisher_id = $args["publisher_id"];
-    if (isset($publisher_id)) {
-        // Fetch the info about the specified game.
-        $game_info = $game_model->getGamesByDeveloperId($publisher_id);
-        if (!$game_info) {
-            // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified album.");
-            $response->getBody()->write($response_data);
-            return $response->withStatus(HTTP_NOT_FOUND);
-        }
-    }
-    // Handle serve-side content negotiation and produce the requested representation.    
-    $requested_format = $request->getHeader('Accept');
-    //--
-    //-- We verify the requested resource representation.    
-    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($game_info, JSON_INVALID_UTF8_SUBSTITUTE);
-    } else {
-        $response_data = json_encode(getErrorUnsupportedFormat());
-        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
-    }
-    $response->getBody()->write($response_data);
-    return $response->withStatus($response_code);
-}
-
-function handleGetGamesByGenreId(Request $request, Response $response, array $args) {
-    $game_info = array();
-    $response_data = array();
-    $response_code = HTTP_OK;
-    $game_model = new GameModel();
-
-    // Retreive the game if from the request's URI.
-    $genre_id = $args["genre_id"];
-    if (isset($genre_id)) {
-        // Fetch the info about the specified game.
-        $game_info = $game_model->getGamesByDeveloperId($genre_id);
-        if (!$game_info) {
-            // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified album.");
-            $response->getBody()->write($response_data);
-            return $response->withStatus(HTTP_NOT_FOUND);
-        }
-    }
-    // Handle serve-side content negotiation and produce the requested representation.    
-    $requested_format = $request->getHeader('Accept');
-    //--
-    //-- We verify the requested resource representation.    
-    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($game_info, JSON_INVALID_UTF8_SUBSTITUTE);
-    } else {
-        $response_data = json_encode(getErrorUnsupportedFormat());
-        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
-    }
-    $response->getBody()->write($response_data);
-    return $response->withStatus($response_code);
-}
-
 function handleCreateGames(Request $request, Response $response, array $args) {
     $game_info = array();
     $response_data = array();
@@ -178,39 +82,29 @@ function handleCreateGames(Request $request, Response $response, array $args) {
     // Fetch the info about the specified game.
     for ($index = 0; $index < count($data); $index++){
         $single_game = $data[$index];
-        $gameId = $single_game["game_id"];
+        //$gameId = $single_game["game_id"];
         $gameTitle = $single_game["title"];
         $gameThumbnail = $single_game["thumbnail"];
-        $gameStatus = $single_game["status"];
-        $gameShortDescription = $single_game["short_description"];
-        $gameDescription = $single_game["description"];
+        $gameDescription = $single_game["short_description"];
         $gameURL = $single_game["game_url"];
         $gameReleaseDate = $single_game["release_date"];
-        $genreId = $single_game["genre_id"];
-        $platformId = $single_game["platform_id"];
-        $publisherId = $single_game["publisher_id"];
-        $developerId = $single_game["developer_id"];
-        $requirementId = $single_game["requirement_id"];
-        $reviewId = $single_game["review_id"];
-
+        $genre = $single_game["genre"];
+        $platform = $single_game["platform"];
+        $publisher = $single_game["publisher"];
+        $developer = $single_game["developer"];
 
         $new_game_record = array(
-            "game_id"=>$gameId,
+           // "game_id"=>$gameId,
             "title"=>$gameTitle,
             "thumbnail"=>$gameThumbnail,
-            "status"=>$gameStatus,
-            "short_description"=>$gameShortDescription,
-            "description"=>$gameDescription,
+            "short_description"=>$gameDescription,
             "game_url"=>$gameURL,
             "release_date"=>$gameReleaseDate,
-            "genre_id"=>$genreId,
-            "platform_id"=>$platformId,
-            "publisher_id"=>$publisherId,
-            "developer_id"=>$developerId,
-            "requirement_id"=>$requirementId,
-            "review_id"=>$reviewId
+            "genre"=>$genre,
+            "platform"=>$platform,
+            "publisher"=>$publisher,
+            "developer"=>$developer,
         );
-
         $game_info = $game_model->createArtists($new_game_record);
     }
 
@@ -221,6 +115,7 @@ function handleCreateGames(Request $request, Response $response, array $args) {
 
 function handleUpdateGames(Request $request, Response $response, array $args) {
     $data = $request->getParsedBody();
+    $response_code = HTTP_OK;
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $game_model = new GameModel(); 
@@ -230,17 +125,13 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
         $gameId = $single_game["game_id"];
         $gameTitle = $single_game["title"];
         $gameThumbnail = $single_game["thumbnail"];
-        $gameStatus = $single_game["status"];
-        $gameShortDescription = $single_game["short_description"];
-        $gameDescription = $single_game["description"];
+        $gameDescription = $single_game["short_description"];
         $gameURL = $single_game["game_url"];
         $gameReleaseDate = $single_game["release_date"];
-        $genreId = $single_game["genre_id"];
-        $platformId = $single_game["platform_id"];
-        $publisherId = $single_game["publisher_id"];
-        $developerId = $single_game["developer_id"];
-        $requirementId = $single_game["requirement_id"];
-        $reviewId = $single_game["review_id"];
+        $genre = $single_game["genre"];
+        $platform = $single_game["platform"];
+        $publisher = $single_game["publisher"];
+        $developer = $single_game["developer"];
 
         //-- We retrieve the key and its value
         //-- We perform an UPDATE/CREATE SQL statement
@@ -248,17 +139,13 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
         $existing_game_record = array(
             "title"=>$gameTitle,
             "thumbnail"=>$gameThumbnail,
-            "status"=>$gameStatus,
-            "short_description"=>$gameShortDescription,
-            "description"=>$gameDescription,
+            "short_description"=>$gameDescription,
             "game_url"=>$gameURL,
             "release_date"=>$gameReleaseDate,
-            "genre_id"=>$genreId,
-            "platform_id"=>$platformId,
-            "publisher_id"=>$publisherId,
-            "developer_id"=>$developerId,
-            "requirement_id"=>$requirementId,
-            "review_id"=>$reviewId
+            "genre"=>$genre,
+            "platform"=>$platform,
+            "publisher"=>$publisher,
+            "developer"=>$developer,
         );
 
         $game_model->updateArtists($existing_game_record, array("game_id"=>$gameId));
@@ -266,7 +153,7 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
 
     $html = var_export($data, true);
     $response->getBody()->write($html);
-    return $response;
+    return $response->withStatus($response_code);
 }
 
 function handleDeleteGames(Request $request, Response $response, array $args) {
