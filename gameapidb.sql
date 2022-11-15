@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2022 at 02:48 AM
+-- Generation Time: Nov 15, 2022 at 04:53 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -22,6 +22,24 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `gameapidb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `gameapidb`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app`
+--
+
+DROP TABLE IF EXISTS `app`;
+CREATE TABLE `app` (
+  `app_id` int(11) NOT NULL,
+  `app_name` varchar(75) NOT NULL,
+  `app_category` varchar(50) NOT NULL,
+  `app_developer` varchar(50) NOT NULL,
+  `num_downloads` int(11) NOT NULL,
+  `app_description` text NOT NULL,
+  `app_url` varchar(200) NOT NULL,
+  `app_icon` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -456,6 +474,12 @@ CREATE TABLE `review` (
 --
 
 --
+-- Indexes for table `app`
+--
+ALTER TABLE `app`
+  ADD PRIMARY KEY (`app_id`);
+
+--
 -- Indexes for table `author`
 --
 ALTER TABLE `author`
@@ -479,6 +503,12 @@ ALTER TABLE `review`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `app`
+--
+ALTER TABLE `app`
+  MODIFY `app_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `author`
