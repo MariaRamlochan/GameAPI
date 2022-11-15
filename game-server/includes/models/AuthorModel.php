@@ -55,6 +55,17 @@ class AuthorModel extends BaseModel {
     }
 
     /**
+     * Retrieve a list of authors from a given review.
+     * @param int $review_id the id of the game.
+     * @return array a list of authors.
+     */
+    public function getAuthorsByReviewId($review_id) {
+        $sql = "SELECT * FROM author WHERE review_id = ?";
+        $data = $this->run($sql, [$author_id])->fetchAll();
+        return $data;
+    }
+
+    /**
      * Create a list of authors
      */
     public function createAuthor($data) {
