@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2022 at 12:38 AM
+-- Generation Time: Nov 15, 2022 at 01:13 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -54,8 +54,7 @@ CREATE TABLE `game` (
   `genre` varchar(50) NOT NULL,
   `platform` varchar(50) NOT NULL,
   `publisher` varchar(50) NOT NULL,
-  `developer` varchar(50) NOT NULL,
-  `review_id` int(11) NOT NULL
+  `developer` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
