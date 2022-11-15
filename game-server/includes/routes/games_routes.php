@@ -105,7 +105,7 @@ function handleCreateGames(Request $request, Response $response, array $args) {
             "publisher"=>$publisher,
             "developer"=>$developer,
         );
-        $game_info = $game_model->createArtists($new_game_record);
+        $game_info = $game_model->createGames($new_game_record);
     }
 
     $html = var_export($data, true);
@@ -148,7 +148,7 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
             "developer"=>$developer,
         );
 
-        $game_model->updateArtists($existing_game_record, array("game_id"=>$gameId));
+        $game_model->updateGames($existing_game_record, array("game_id"=>$gameId));
     }
 
     $html = var_export($data, true);
@@ -167,7 +167,7 @@ function handleDeleteGames(Request $request, Response $response, array $args) {
     $game_id = $args["game_id"];
     if (isset($game_id)) {
         // Fetch the info about the specified game.
-        $game_model->deleteArtists(array("game_id"=>$game_id));
+        $game_model->deleteGames(array("game_id"=>$game_id));
         $game_info = "Game has been DELETED";
         if (!$game_info) {
             // No matches found?

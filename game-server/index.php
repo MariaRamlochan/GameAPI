@@ -29,6 +29,13 @@ require_once './includes/routes/reviews_routes.php';
 //-- Step 6)
 // TODO: And here we define app routes.
 
+//--------------------------- APP -------------------------------------
+$app->get("/apps", "handleGetAllApps");
+$app->get("/apps/{app_id}", "handleGetAppById");
+
+$app->post("/apps", "handleCreateApps");
+$app->put("/apps", "handleUpdateApps");
+$app->delete("/apps/{app_id}", "handleDeleteApps");
 //-------------------------- AUTHOR ------------------------------------
 $app->get("/authors", "handleGetAllAuthors");
 $app->get("/authors/{author_id}", "handleGetAuthorById");
@@ -46,6 +53,10 @@ $app->delete("/games/{game_id}", "handleDeleteGames");
 //-------------------------- REVIEW ------------------------------------
 $app->get("/reviews", "handleGetAllReviews");
 $app->get("/reviews/{review_id}", "handleGetReviewById");
+
+$app->post("/authors", "handleCreateReviews");
+$app->put("/authors", "handleUpdateReviews");
+$app->delete("/authors/{author_id}", "handleDeleteGames");
 
 // Run the app.
 $app->run();
