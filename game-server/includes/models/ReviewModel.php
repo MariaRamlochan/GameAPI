@@ -64,4 +64,28 @@ class ReviewModel extends BaseModel {
         $data = $this->run($sql, [$game_id])->fetchAll();
         return $data;
     }
+
+    /**
+     * Create a list of reviews
+     */
+    public function createReview($data) {
+        $data = $this->insert("review", $data);
+        return $data;
+    }
+
+    /**
+     * Update a list of reviews
+     */
+    public function updateReview($data, $where) {
+        $data = $this->update("review", $data, $where);
+        return $data;
+    }
+
+    /**
+     * Delete a list of reviews
+     */
+    public function deleteReview($where) {
+        $data = $this->delete("review", $where);
+        return $data;
+    }
 }

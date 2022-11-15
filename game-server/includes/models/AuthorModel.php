@@ -27,7 +27,7 @@ class AuthorModel extends BaseModel {
      * @return array An array containing the matches found.
      */
     public function getWhereLike($name) {
-        $sql = "SELECT * FROM author WHERE Title LIKE :name";
+        $sql = "SELECT * FROM author WHERE name LIKE :name";
         $data = $this->run($sql, [":name" => $name . "%"])->fetchAll();
         return $data;
     }
@@ -49,8 +49,32 @@ class AuthorModel extends BaseModel {
      * @return array a list of authors.
      */
     public function getAuthorsByGameId($game_id) {
-        $sql = "SELECT * FROM author WHERE GameID = ?";
+        $sql = "SELECT * FROM author WHERE game_id = ?";
         $data = $this->run($sql, [$author_id])->fetchAll();
+        return $data;
+    }
+
+    /**
+     * Create a list of authors
+     */
+    public function createAuthor($data) {
+        $data = $this->insert("author", $data);
+        return $data;
+    }
+
+    /**
+     * Update a list of authors
+     */
+    public function updateAuthor($data, $where) {
+        $data = $this->update("author", $data, $where);
+        return $data;
+    }
+
+    /**
+     * Delete a list of authors
+     */
+    public function deleteAuthor($where) {
+        $data = $this->delete("author", $where);
         return $data;
     }
 }
