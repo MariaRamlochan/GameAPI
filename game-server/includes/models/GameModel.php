@@ -21,14 +21,58 @@ class GameModel extends BaseModel {
         return $data;
     }
 
-        /**
+    /**
      * Get a list of Games whose title matches or contains the provided value.       
      * @param string $title 
      * @return array An array containing the matches found.
      */
-    public function getWhereLike($title) {
-        $sql = "SELECT * FROM game WHERE Title LIKE :title";
+    public function getGameByTitle($title) {
+        $sql = "SELECT * FROM game WHERE title LIKE :title";
         $data = $this->run($sql, [":title" => $title . "%"])->fetchAll();
+        return $data;
+    }
+
+    /**
+     * Get a list of Games whose genre matches the provided value.       
+     * @param string $genre 
+     * @return array An array containing the matches found.
+     */
+    public function getGamesByGenre($genre) {
+        $sql = "SELECT * FROM game WHERE genre LIKE :genre";
+        $data = $this->run($sql, [":genre" => $genre . "%"])->fetchAll();
+        return $data;
+    }
+
+    /**
+     * Get a list of Games whose platform matches the provided value.       
+     * @param string $platform 
+     * @return array An array containing the matches found.
+     */
+    public function getGamesByPlatform($platform) {
+        $sql = "SELECT * FROM game WHERE platform LIKE :platform";
+        $data = $this->run($sql, [":platform" => $platform . "%"])->fetchAll();
+        return $data;
+    }
+
+    /**
+     * Get a list of Games whose publisher matches the provided value.       
+     * @param string $publisher 
+     * @return array An array containing the matches found.
+     */
+    public function getGamesByPublisher($publisher) {
+        $sql = "SELECT * FROM game WHERE publisher LIKE :publisher";
+        $data = $this->run($sql, [":publisher" => $publisher . "%"])->fetchAll();
+        return $data;
+    }
+
+    /**
+     * Get a list of Games whose developer matches the provided value.       
+     * @param string $developer 
+     * @return array An array containing the matches found.
+     */
+    public function getGamesByDeveloper($developer) {
+        $sql = "SELECT * FROM game WHERE developer LIKE :platform";
+        $data = $this->run($sql, [":developer" => $developer . "%"])->fetchAll();
         return $data;
     }
 
@@ -44,35 +88,26 @@ class GameModel extends BaseModel {
     }
 
     /**
-     * Retrieve a list of games of a given developer.
-     * @param int $game_id the id of the developer.
-     * @return array a list of games.
+     * Create a list of games
      */
-    public function getGamesByDeveloperId($game_id) {
-        $sql = "SELECT * FROM game WHERE DeveloperID = ?";
-        $data = $this->run($sql, [$game_id])->fetchAll();
+    public function createGames($data) {
+        $data = $this->insert("game", $data);
         return $data;
     }
 
     /**
-     * Retrieve a list of games of a given publisher.
-     * @param int $game_id the id of the publisher.
-     * @return array a list of games.
+     * Update a list of games
      */
-    public function getGamesByPublisherId($game_id) {
-        $sql = "SELECT * FROM game WHERE PublisherID = ?";
-        $data = $this->run($sql, [$game_id])->fetchAll();
+    public function updateGames($data, $where) {
+        $data = $this->update("game", $data, $where);
         return $data;
     }
 
     /**
-     * Retrieve a list of games of a given genre.
-     * @param int $game_id the id of the genre.
-     * @return array a list of games.
+     * Delete a list of games
      */
-    public function getGamesByGenreId($game_id) {
-        $sql = "SELECT * FROM game WHERE GenreID = ?";
-        $data = $this->run($sql, [$game_id])->fetchAll();
+    public function deleteGames($where) {
+        $data = $this->delete("game", $where);
         return $data;
     }
 }
