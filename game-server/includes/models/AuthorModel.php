@@ -50,7 +50,7 @@ class AuthorModel extends BaseModel {
      */
     public function getAuthorsByGameId($game_id) {
         $sql = "SELECT * FROM author WHERE game_id = ?";
-        $data = $this->run($sql, [$author_id])->fetchAll();
+        $data = $this->run($sql, [$game_id])->fetchAll();
         return $data;
     }
 
@@ -61,14 +61,14 @@ class AuthorModel extends BaseModel {
      */
     public function getAuthorsByReviewId($review_id) {
         $sql = "SELECT * FROM author WHERE review_id = ?";
-        $data = $this->run($sql, [$author_id])->fetchAll();
+        $data = $this->run($sql, [$review_id])->fetchAll();
         return $data;
     }
 
     /**
      * Create a list of authors
      */
-    public function createAuthor($data) {
+    public function createAuthors($data) {
         $data = $this->insert("author", $data);
         return $data;
     }
@@ -76,7 +76,7 @@ class AuthorModel extends BaseModel {
     /**
      * Update a list of authors
      */
-    public function updateAuthor($data, $where) {
+    public function updateAuthors($data, $where) {
         $data = $this->update("author", $data, $where);
         return $data;
     }
@@ -84,7 +84,7 @@ class AuthorModel extends BaseModel {
     /**
      * Delete a list of authors
      */
-    public function deleteAuthor($where) {
+    public function deleteAuthors($where) {
         $data = $this->delete("author", $where);
         return $data;
     }

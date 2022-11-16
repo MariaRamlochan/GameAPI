@@ -5,8 +5,10 @@ async function getListOfGames(){
         let resourceUri = "http://localhost/GameAPI/game-server/games";
         const options = {
             method: "GET",
+            
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                
             }
         };
     

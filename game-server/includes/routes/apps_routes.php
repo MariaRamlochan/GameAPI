@@ -171,3 +171,4 @@ function handleDeleteApps(Request $request, Response $response, array $args) {
     $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
+

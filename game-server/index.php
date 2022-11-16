@@ -54,9 +54,9 @@ $app->delete("/games/{game_id}", "handleDeleteGames");
 $app->get("/reviews", "handleGetAllReviews");
 $app->get("/reviews/{review_id}", "handleGetReviewById");
 
-$app->post("/authors", "handleCreateReviews");
-$app->put("/authors", "handleUpdateReviews");
-$app->delete("/authors/{author_id}", "handleDeleteGames");
+$app->post("/reviews", "handleCreateReviews");
+$app->put("/reviews", "handleUpdateReviews");
+$app->delete("/reviews/{review_id}", "handleDeleteReview");
 
 // Run the app.
 $app->run();

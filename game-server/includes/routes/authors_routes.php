@@ -48,7 +48,7 @@ function handleGetAuthorById(Request $request, Response $response, array $args) 
     $author_id = $args["author_id"];
     if (isset($author_id)) {
         // Fetch the info about the specified author.
-        $author_info = $author_model->getAuthorById($author_id);
+        $author_info = $author_model->getAuthorsById($author_id);
         if (!$author_info) {
             // No matches found?
             $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
