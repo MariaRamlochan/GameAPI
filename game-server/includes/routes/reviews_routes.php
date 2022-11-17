@@ -125,7 +125,7 @@ function handleUpdateReviews(Request $request, Response $response, array $args) 
             "author_id"=>$author_id,
         );
 
-        $review_model->updateArtists($existing_review_record, array("review_id"=>$reviewId));
+        $review_model->updateReviews($existing_review_record, array("review_id"=>$reviewId));
     }
 
     $html = var_export($data, true);

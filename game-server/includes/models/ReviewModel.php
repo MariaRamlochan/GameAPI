@@ -37,7 +37,7 @@ class ReviewModel extends BaseModel {
      * @param int $author_id the id of the review.
      * @return array an array containing information about a given review.
      */
-    public function getReviewsById($review_id) {
+    public function getReviewById($review_id) {
         $sql = "SELECT * FROM review WHERE review_id = ?";
         $data = $this->run($sql, [$review_id])->fetch();
         return $data;
@@ -68,7 +68,7 @@ class ReviewModel extends BaseModel {
     /**
      * Create a list of reviews
      */
-    public function createReview($data) {
+    public function createReviews($data) {
         $data = $this->insert("review", $data);
         return $data;
     }
@@ -76,7 +76,7 @@ class ReviewModel extends BaseModel {
     /**
      * Update a list of reviews
      */
-    public function updateReview($data, $where) {
+    public function updateReviews($data, $where) {
         $data = $this->update("review", $data, $where);
         return $data;
     }
@@ -84,7 +84,7 @@ class ReviewModel extends BaseModel {
     /**
      * Delete a list of reviews
      */
-    public function deleteReview($where) {
+    public function deleteReviews($where) {
         $data = $this->delete("review", $where);
         return $data;
     }

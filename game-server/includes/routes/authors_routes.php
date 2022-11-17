@@ -129,7 +129,7 @@ function handleUpdateAuthors(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleDeleteAuthors(Request $request, Response $response, array $args) {
+function handleDeleteAuthor(Request $request, Response $response, array $args) {
     $author_info = array();
     $response_data = array();
     $response_code = HTTP_OK;

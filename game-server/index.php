@@ -43,7 +43,7 @@ $app->get("/authors/{author_id}", "handleGetAuthorById");
 
 $app->post("/authors", "handleCreateAuthors");
 $app->put("/authors", "handleUpdateAuthors");
-$app->delete("/authors/{author_id}", "handleDeleteAuthors");
+$app->delete("/authors/{author_id}", "handleDeleteAuthor");
 //-------------------------- GAME --------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
