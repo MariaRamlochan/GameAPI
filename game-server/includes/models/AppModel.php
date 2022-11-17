@@ -28,7 +28,7 @@ class AppModel extends BaseModel {
      */
     public function getAppGameByName($app_name) {
         $sql = "SELECT * FROM app WHERE app_name LIKE :app_name";
-        $data = $this->run($sql, [":app_name" => $app_name . "%"])->fetchAll();
+        $data = $this->run($sql, [":app_name" => "%" . $app_name . "%"])->fetchAll();
         return $data;
     }
 
@@ -59,9 +59,9 @@ class AppModel extends BaseModel {
      * @param string $developer 
      * @return array An array containing the matches found.
      */
-    public function getAppGamesByDeveloper($developer) {
-        $sql = "SELECT * FROM app WHERE developer LIKE :developer";
-        $data = $this->run($sql, [":developer" => $developer . "%"])->fetchAll();
+    public function getAppGamesByDeveloper($app_developer) {
+        $sql = "SELECT * FROM app WHERE app_developer LIKE :app_developer";
+        $data = $this->run($sql, [":app_developer" => "%" . $app_developer . "%"])->fetchAll();
         return $data;
     }
 

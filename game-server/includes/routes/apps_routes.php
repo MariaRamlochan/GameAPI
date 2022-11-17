@@ -20,6 +20,15 @@ function handleGetAllApps(Request $request, Response $response, array $args) {
     if (isset($filter_params["name"])) {
         // Fetch the list of apps matching the provided name.
         $apps = $app_model->getAppGameByName($filter_params["name"]);
+    } else if (isset($filter_params["category"])) {
+        // Fetch the list of apps matching the provided category.
+        $apps = $app_model->getAppGamesByCategory($filter_params["category"]);
+    } else if (isset($filter_params["downloads"])) {
+        // Fetch the list of apps matching the provided downloads.
+        $apps = $app_model->getAppGamesByNumberOfDownloads($filter_params["downloads"]);
+    } else if (isset($filter_params["developer"])) {
+        // Fetch the list of apps matching the provided developer.
+        $apps = $app_model->getAppGamesByDeveloper($filter_params["developer"]);
     } else {
         // No filtering by app name detected.
         $apps = $app_model->getAll();
@@ -119,7 +128,7 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
         $appName = $single_app["app_name"];
         $app_category = $single_app["app_category"];
         $appDeveloper = $single_app["app_developer"];
-        $numDownloads = $single_app["numDownloads"];
+        $numDownloads = $single_app["num_downloads"];
 
         //-- We retrieve the key and its value
         //-- We perform an UPDATE/CREATE SQL statement
@@ -128,7 +137,7 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
             "app_name"=>$appName,
             "app_category"=>$app_category,
             "app_developer"=>$appDeveloper,
-            "numDownloads"=>$numDownloads,
+            "num_downloads"=>$numDownloads,
         );
 
         $app_model->updateAppGames($existing_review_record, array("app_id"=>$reviewId));
