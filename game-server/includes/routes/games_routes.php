@@ -8,7 +8,7 @@ require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/GameModel.php';
 
 // Callback for HTTP GET /games
-//-- Supported filtering operation: by game title.
+//-- Supported filtering operation: by game title, genre, platform.
 function handleGetAllGames(Request $request, Response $response, array $args) {
     $games = array();
     $response_data = array();
@@ -19,7 +19,19 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
     $filter_params = $request->getQueryParams();
     if (isset($filter_params["title"])) {
         // Fetch the list of games matching the provided title.
-        $games = $game_model->getWhereLike($filter_params["title"]);
+        $games = $game_model->getGameByTitle($filter_params["title"]);
+    } else if (isset($filter_params["genre"])) {
+        // Fetch the list of games matching the provided genre.
+        $games = $game_model->getGamesByGenre($filter_params["genre"]);
+    } else if (isset($filter_params["platform"])) {
+        // Fetch the list of games matching the provided platform.
+        $games = $game_model->getGamesByPlatform($filter_params["platform"]);
+    } else if (isset($filter_params["publisher"])) {
+        // Fetch the list of games matching the provided publisher.
+        $games = $game_model->getGamesByPublisher($filter_params["publisher"]);
+    } else if (isset($filter_params["developer"])) {
+        // Fetch the list of games matching the provided developer.
+        $games = $game_model->getGamesByDeveloper($filter_params["developer"]);
     } else {
         // No filtering by game title detected.
         $games = $game_model->getAll();
@@ -156,7 +168,7 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
     return $response->withStatus($response_code);
 }
 
-function handleDeleteGames(Request $request, Response $response, array $args) {
+function handleDeleteGame(Request $request, Response $response, array $args) {
     $game_info = array();
     $response_data = array();
     $response_code = HTTP_OK;

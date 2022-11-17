@@ -8,7 +8,7 @@ require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/AppModel.php';
 
 // Callback for HTTP GET /apps
-//-- Supported filtering operation: by app app_category.
+//-- Supported filtering operation: by app name.
 function handleGetAllApps(Request $request, Response $response, array $args) {
     $apps = array();
     $response_data = array();
@@ -17,11 +17,11 @@ function handleGetAllApps(Request $request, Response $response, array $args) {
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
-    if (isset($filter_params["app_category"])) {
-        // Fetch the list of apps matching the provided app_category.
-        $apps = $app_model->getWhereLike($filter_params["app_category"]);
+    if (isset($filter_params["name"])) {
+        // Fetch the list of apps matching the provided name.
+        $apps = $app_model->getAppGameByName($filter_params["name"]);
     } else {
-        // No filtering by app app_category detected.
+        // No filtering by app name detected.
         $apps = $app_model->getAll();
     }    
     // Handle serve-side content negotiation and produce the requested representation.    
@@ -48,7 +48,7 @@ function handleGetAppById(Request $request, Response $response, array $args) {
     $app_id = $args["app_id"];
     if (isset($app_id)) {
         // Fetch the info about the specified app.
-        $app_info = $app_model->getAppById($app_id);
+        $app_info = $app_model->getAppGameById($app_id);
         if (!$app_info) {
             // No matches found?
             $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified app.");
@@ -98,7 +98,7 @@ function handleCreateApps(Request $request, Response $response, array $args) {
             "app_url"=>$appURL,
             "app_icon"=>$appIcon,
         );
-        $app_info = $app_model->createApps($new_app_record);
+        $app_info = $app_model->createAppGames($new_app_record);
     }
 
     $html = var_export($data, true);
@@ -131,7 +131,7 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
             "numDownloads"=>$numDownloads,
         );
 
-        $app_model->updateArtists($existing_review_record, array("app_id"=>$reviewId));
+        $app_model->updateAppGames($existing_review_record, array("app_id"=>$reviewId));
     }
 
     $html = var_export($data, true);
@@ -139,7 +139,7 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
     return $response->withStatus($response_code);
 }
 
-function handleDeleteApps(Request $request, Response $response, array $args) {
+function handleDeleteApp(Request $request, Response $response, array $args) {
     $app_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -150,7 +150,7 @@ function handleDeleteApps(Request $request, Response $response, array $args) {
     $app_id = $args["app_id"];
     if (isset($app_id)) {
         // Fetch the info about the specified app.
-        $app_model->deleteApps(array("app_id"=>$app_id));
+        $app_model->deleteAppGames(array("app_id"=>$app_id));
         $app_info = "App has been DELETED";
         if (!$app_info) {
             // No matches found?

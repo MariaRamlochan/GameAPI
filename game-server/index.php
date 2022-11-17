@@ -22,6 +22,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->setBasePath("/GameAPI/game-server");
 
 //-- Step 5) Include the files containing the definitions of the callbacks.
+require_once './includes/routes/apps_routes.php';
 require_once './includes/routes/authors_routes.php';
 require_once './includes/routes/games_routes.php';
 require_once './includes/routes/reviews_routes.php';
@@ -35,7 +36,7 @@ $app->get("/apps/{app_id}", "handleGetAppById");
 
 $app->post("/apps", "handleCreateApps");
 $app->put("/apps", "handleUpdateApps");
-$app->delete("/apps/{app_id}", "handleDeleteApps");
+$app->delete("/apps/{app_id}", "handleDeleteApp");
 //-------------------------- AUTHOR ------------------------------------
 $app->get("/authors", "handleGetAllAuthors");
 $app->get("/authors/{author_id}", "handleGetAuthorById");
@@ -49,7 +50,8 @@ $app->get("/games/{game_id}", "handleGetGameById");
 
 $app->post("/games", "handleCreateGames");
 $app->put("/games", "handleUpdateGames");
-$app->delete("/games/{game_id}", "handleDeleteGames");
+$app->delete("/games", "handleDeleteGames");
+$app->delete("/games/{game_id}", "handleDeleteGame");
 //-------------------------- REVIEW ------------------------------------
 $app->get("/reviews", "handleGetAllReviews");
 $app->get("/reviews/{review_id}", "handleGetReviewById");

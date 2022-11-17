@@ -26,7 +26,7 @@ class AppModel extends BaseModel {
      * @param string $app_name 
      * @return array An array containing the matches found.
      */
-    public function getMobileGameByName($app_name) {
+    public function getAppGameByName($app_name) {
         $sql = "SELECT * FROM app WHERE app_name LIKE :app_name";
         $data = $this->run($sql, [":app_name" => $app_name . "%"])->fetchAll();
         return $data;
@@ -37,7 +37,7 @@ class AppModel extends BaseModel {
      * @param string $app_category 
      * @return array An array containing the matches found.
      */
-    public function getMobileGamesByCategory($app_category) {
+    public function getAppGamesByCategory($app_category) {
         $sql = "SELECT * FROM app WHERE app_category LIKE :app_category";
         $data = $this->run($sql, [":app_category" => $app_category . "%"])->fetchAll();
         return $data;
@@ -48,7 +48,7 @@ class AppModel extends BaseModel {
      * @param string $num_downloads 
      * @return array An array containing the matches found.
      */
-    public function getMobileGamesByNumberOfDownloads($num_downloads) {
+    public function getAppGamesByNumberOfDownloads($num_downloads) {
         $sql = "SELECT * FROM app WHERE num_downloads LIKE :num_downloads";
         $data = $this->run($sql, [":num_downloads" => $num_downloads . "%"])->fetchAll();
         return $data;
@@ -59,7 +59,7 @@ class AppModel extends BaseModel {
      * @param string $developer 
      * @return array An array containing the matches found.
      */
-    public function getMobileGamesByDeveloper($developer) {
+    public function getAppGamesByDeveloper($developer) {
         $sql = "SELECT * FROM app WHERE developer LIKE :developer";
         $data = $this->run($sql, [":developer" => $developer . "%"])->fetchAll();
         return $data;
@@ -70,7 +70,7 @@ class AppModel extends BaseModel {
      * @param int $app_id the id of the app.
      * @return array an array containing information about a given app.
      */
-    public function getMobileGameById($app_id) {
+    public function getAppGameById($app_id) {
         $sql = "SELECT * FROM app WHERE app_id = ?";
         $data = $this->run($sql, [$app_id])->fetch();
         return $data;
@@ -79,7 +79,7 @@ class AppModel extends BaseModel {
     /**
      * Create a list of Mobile Game
      */
-    public function createMobileGames($data) {
+    public function createAppGames($data) {
         $data = $this->insert("app", $data);
         return $data;
     }
@@ -87,7 +87,7 @@ class AppModel extends BaseModel {
     /**
      * Update a list of Mobile Game
      */
-    public function updateMobileGames($data, $where) {
+    public function updateAppGames($data, $where) {
         $data = $this->update("app", $data, $where);
         return $data;
     }
@@ -95,7 +95,7 @@ class AppModel extends BaseModel {
     /**
      * Delete a list of Mobile Game
      */
-    public function deleteMobileGames($where) {
+    public function deleteAppGames($where) {
         $data = $this->delete("app", $where);
         return $data;
     }

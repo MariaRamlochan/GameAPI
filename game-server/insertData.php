@@ -74,7 +74,7 @@ foreach ($game_apps as $game_app) {
          "app_url" => $game_app["app_page_link"],
          "app_icon" => $game_app["app_icon"]
      );   
-   $appModel->createMobileGames($new_app);
+   $appModel->createAppGames($new_app);
 }
 
 

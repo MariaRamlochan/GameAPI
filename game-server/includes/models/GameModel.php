@@ -71,7 +71,7 @@ class GameModel extends BaseModel {
      * @return array An array containing the matches found.
      */
     public function getGamesByDeveloper($developer) {
-        $sql = "SELECT * FROM game WHERE developer LIKE :platform";
+        $sql = "SELECT * FROM game WHERE developer LIKE :developer";
         $data = $this->run($sql, [":developer" => $developer . "%"])->fetchAll();
         return $data;
     }
