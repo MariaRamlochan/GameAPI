@@ -124,11 +124,14 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
 
     for ($index = 0; $index < count($data); $index++){
         $single_app = $data[$index];
-        $reviewId = $single_app["app_id"];
+        $appId = $single_app["app_id"];
         $appName = $single_app["app_name"];
         $app_category = $single_app["app_category"];
         $appDeveloper = $single_app["app_developer"];
         $numDownloads = $single_app["num_downloads"];
+        $appDescription = $single_app["app_description"];
+        $appUrl = $single_app["app_url"];
+        $appIcon = $single_app["app_icon"];
 
         //-- We retrieve the key and its value
         //-- We perform an UPDATE/CREATE SQL statement
@@ -138,9 +141,12 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
             "app_category"=>$app_category,
             "app_developer"=>$appDeveloper,
             "num_downloads"=>$numDownloads,
+            "app_description"=>$appDescription,
+            "app_url"=>$appUrl,
+            "app_icon"=>$appIcon
         );
 
-        $app_model->updateAppGames($existing_review_record, array("app_id"=>$reviewId));
+        $app_model->updateAppGames($existing_review_record, array("app_id"=>$appId));
     }
 
     $html = var_export($data, true);
