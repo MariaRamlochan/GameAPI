@@ -134,7 +134,6 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
     
     //Create Empty array to insert what we would like to update    
     $existing_game = array();
-
    
     //Check which key we want to update
     foreach($data as $key => $single_game){
@@ -150,7 +149,8 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
         if(isset($single_game["game_url"])){
             $existing_game["game_url"] = $single_game["game_url"];
         }
-        echo "hello";
+
+        $existing_game["title"] = $single_game["title"];
         // $gameId = $single_game["game_id"];
         // $gameTitle = $single_game["title"];
         // $gameThumbnail = $single_game["thumbnail"];
@@ -164,15 +164,18 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
 
         //-- We retrieve the key and its value
         //-- We perform an UPDATE/CREATE SQL statement
-
+        //var_dump($existing_game);exit;
         
-      
-       // $game_model->updateGames($existing_game, array($existing_gameId));
+        //$existing_game["game_url"] = $single_game["game_url"];
+         $data = $game_model->updateGames($existing_game, array("game_id" => $existing_gameId));
+         if (!$data) {
+             echo "Something went wrong!";exit;
+         }
     }
-    var_dump("the following is my existing game data");
-    var_dump($existing_game);
-    $html = var_export($data, true);
-    $response->getBody()->write($html);
+
+    var_dump("gameID: ".$existing_gameId);
+//    $html = var_export($data, true);
+    $response->getBody()->write("WOrked???");
     return $response->withStatus($response_code);
 }
 
