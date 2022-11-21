@@ -105,7 +105,7 @@ function handleCreateApps(Request $request, Response $response, array $args) {
             "num_downloads"=>$numDownloads,
             "app_description"=>$appDescription,
             "app_url"=>$appURL,
-            "app_icon"=>$appIcon,
+            "app_icon"=>$appIcon
         );
         $app_info = $app_model->createAppGames($new_app_record);
     }
@@ -116,37 +116,52 @@ function handleCreateApps(Request $request, Response $response, array $args) {
 }
 
 function handleUpdateApps(Request $request, Response $response, array $args) {
+
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
+
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $app_model = new AppModel(); 
 
-    for ($index = 0; $index < count($data); $index++){
-        $single_app = $data[$index];
-        $appId = $single_app["app_id"];
-        $appName = $single_app["app_name"];
-        $app_category = $single_app["app_category"];
-        $appDeveloper = $single_app["app_developer"];
-        $numDownloads = $single_app["num_downloads"];
-        $appDescription = $single_app["app_description"];
-        $appUrl = $single_app["app_url"];
-        $appIcon = $single_app["app_icon"];
+     //Create Empty array to insert what we would like to update    
+     $existing_apps_record = array();
+   
+    //-- We retrieve the key and its value
+    foreach($data as $key => $single_app){
 
-        //-- We retrieve the key and its value
+        //Retreive the Game Id for the specific game we want to update
+        $existing_appId = $single_app["app_id"];
+
+        //-- Check data set and retrieve the key and its value
+        if(isset($single_app["app_name"])){
+            $existing_apps_record["app_name"] = $single_app["app_name"];
+        }
+        if(isset($single_app["app_category"])){
+            $existing_apps_record["app_category"] = $single_app["app_category"];
+        }
+        if(isset($single_app["app_url"])){
+            $existing_apps_record["app_url"] = $single_app["app_url"];
+        }
+        if(isset($single_app["app_icon"])){
+            $existing_apps_record["app_icon"] = $single_app["app_icon"];
+        }
+        if(isset($single_app["app_category"])){
+            $existing_apps_record["app_category"] = $single_app["app_category"];
+        }
+        if(isset($single_app["app_developer"])){
+            $existing_apps_record["app_developer"] = $single_app["app_developer"];
+        }
+        if(isset($single_app["app_description"])){
+            $existing_apps_record["app_description"] = $single_app["app_description"];
+        }
+        if(isset($single_app["num_downloads"])){
+            $existing_apps_record["num_downloads"] = $single_app["num_downloads"];
+        }
+
+        
         //-- We perform an UPDATE/CREATE SQL statement
-
-        $existing_review_record = array(
-            "app_name"=>$appName,
-            "app_category"=>$app_category,
-            "app_developer"=>$appDeveloper,
-            "num_downloads"=>$numDownloads,
-            "app_description"=>$appDescription,
-            "app_url"=>$appUrl,
-            "app_icon"=>$appIcon
-        );
-
-        $app_model->updateAppGames($existing_review_record, array("app_id"=>$appId));
+        $app_model->updateAppGames($existing_apps_record, array("app_id"=>$existing_appId));
     }
 
     $html = var_export($data, true);
