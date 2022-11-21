@@ -126,8 +126,10 @@ function handleCreateGames(Request $request, Response $response, array $args) {
 }
 
 function handleUpdateGames(Request $request, Response $response, array $args) {
+    
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
+
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $game_model = new GameModel(); 
@@ -137,12 +139,32 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
    
     //Check which key we want to update
     foreach($data as $key => $single_game){
- //var_dump($single_game);exit;
-        // get the game id 
-       //$single_game = $data[$index];
+
+        //Retreive the Game Id for the specific game we want to update
         $existing_gameId = $single_game["game_id"];
-        
-        
+
+        //-- Check data set and retrieve the key and its value
+        if(isset($single_game["title"])){
+            $existing_game["title"] = $single_game["title"];
+        }
+        if(isset($single_game["thumbnail"])){
+            $existing_game["short_description"] = $single_game["short_description"];
+        }
+        if(isset($single_game["game_url"])){
+            $existing_game["game_url"] = $single_game["game_url"];
+        }
+        if(isset($single_game["release_date"])){
+            $existing_game["release_date"] = $single_game["release_date"];
+        }
+        if(isset($single_game["genre"])){
+            $existing_game["genre"] = $single_game["genre"];
+        }
+        if(isset($single_game["platform"])){
+            $existing_game["platform"] = $single_game["platform"];
+        }
+        if(isset($single_game["developer"])){
+            $existing_game["developer"] = $single_game["developer"];
+        }
         if(isset($single_game["short_description"])){
             $existing_game["short_description"] = $single_game["short_description"];
         }
@@ -150,32 +172,10 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
             $existing_game["game_url"] = $single_game["game_url"];
         }
 
-        $existing_game["title"] = $single_game["title"];
-        // $gameId = $single_game["game_id"];
-        // $gameTitle = $single_game["title"];
-        // $gameThumbnail = $single_game["thumbnail"];
-        // $gameDescription = $single_game["short_description"];
-        // $gameURL = $single_game["game_url"];
-        // $gameReleaseDate = $single_game["release_date"];
-        // $genre = $single_game["genre"];
-        // $platform = $single_game["platform"];
-        // $publisher = $single_game["publisher"];
-        // $developer = $single_game["developer"];
-
-        //-- We retrieve the key and its value
-        //-- We perform an UPDATE/CREATE SQL statement
-        //var_dump($existing_game);exit;
-        
-        //$existing_game["game_url"] = $single_game["game_url"];
+        //-- We perform an UPDATE SQL statement
          $data = $game_model->updateGames($existing_game, array("game_id" => $existing_gameId));
-         if (!$data) {
-             echo "Something went wrong!";exit;
-         }
     }
-
-    var_dump("gameID: ".$existing_gameId);
-//    $html = var_export($data, true);
-    $response->getBody()->write("WOrked???");
+    $response->getBody()->write("Request Done");
     return $response->withStatus($response_code);
 }
 
