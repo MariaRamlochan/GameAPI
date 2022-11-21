@@ -13,7 +13,7 @@ $existing_artist_record = array(
 );
 
 
-update game set 
-game_tile = 'new_value', game_url = 'nafees.come'
-where 
-game_id = 1;
+// update game set 
+// game_tile = 'new_value', game_url = 'nafees.come'
+// where 
+// game_id = 1;
