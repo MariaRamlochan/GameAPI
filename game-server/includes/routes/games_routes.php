@@ -131,38 +131,46 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $game_model = new GameModel(); 
+    
+    //Create Empty array to insert what we would like to update    
+    $existing_game = array();
 
-    for ($index = 0; $index < count($data); $index++){
-        $single_game = $data[$index];
-        $gameId = $single_game["game_id"];
-        $gameTitle = $single_game["title"];
-        $gameThumbnail = $single_game["thumbnail"];
-        $gameDescription = $single_game["short_description"];
-        $gameURL = $single_game["game_url"];
-        $gameReleaseDate = $single_game["release_date"];
-        $genre = $single_game["genre"];
-        $platform = $single_game["platform"];
-        $publisher = $single_game["publisher"];
-        $developer = $single_game["developer"];
+   
+    //Check which key we want to update
+    foreach($data as $key => $single_game){
+ //var_dump($single_game);exit;
+        // get the game id 
+       //$single_game = $data[$index];
+        $existing_gameId = $single_game["game_id"];
+        
+        
+        if(isset($single_game["short_description"])){
+            $existing_game["short_description"] = $single_game["short_description"];
+        }
+        if(isset($single_game["game_url"])){
+            $existing_game["game_url"] = $single_game["game_url"];
+        }
+        echo "hello";
+        // $gameId = $single_game["game_id"];
+        // $gameTitle = $single_game["title"];
+        // $gameThumbnail = $single_game["thumbnail"];
+        // $gameDescription = $single_game["short_description"];
+        // $gameURL = $single_game["game_url"];
+        // $gameReleaseDate = $single_game["release_date"];
+        // $genre = $single_game["genre"];
+        // $platform = $single_game["platform"];
+        // $publisher = $single_game["publisher"];
+        // $developer = $single_game["developer"];
 
         //-- We retrieve the key and its value
         //-- We perform an UPDATE/CREATE SQL statement
 
-        $existing_game_record = array(
-            "title"=>$gameTitle,
-            "thumbnail"=>$gameThumbnail,
-            "short_description"=>$gameDescription,
-            "game_url"=>$gameURL,
-            "release_date"=>$gameReleaseDate,
-            "genre"=>$genre,
-            "platform"=>$platform,
-            "publisher"=>$publisher,
-            "developer"=>$developer,
-        );
-
-        $game_model->updateGames($existing_game_record, array("game_id"=>$gameId));
+        
+      
+       // $game_model->updateGames($existing_game, array($existing_gameId));
     }
-
+    var_dump("the following is my existing game data");
+    var_dump($existing_game);
     $html = var_export($data, true);
     $response->getBody()->write($html);
     return $response->withStatus($response_code);
