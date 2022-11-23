@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2022 at 04:39 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Nov 23, 2022 at 05:33 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -96,7 +96,8 @@ INSERT INTO `app` (`app_id`, `app_name`, `app_category`, `app_developer`, `num_d
 (47, 'Race Master 3D - Car Racing', 'Racing', 'SayGames Ltd', '100,000,000+', '?️  Race Master 3D – Fast, furious and super-fun racing  \n\nKeep your finger to the floor and be ready for absolutely anything in this ridiculously entertaining mobile racing game where you really never know what’s around the next corner. Fine tune your ride, keep your foot on the gas, dodge the endlessly varied obstacles, and try to keep out the way of your equally manic rivals in super-fast, super-exciting, psychedelic races that always offer something new and unexpected. Feel the need for speed? \n\nYou’ll get speed, drama, awesome cars and a whole lot more in this addictive casual driving game that’s as intuitive as it is outrageous.\n\n? TO GET YOUR PULSE RACING… ? \n\n? Hard to keep track: 33 unique levels with a huge range of different surfaces and obstacles to race over and around at breakneck speed. Plus 8 different bosses in specially tricked out cars ready to make your ride even more hair-raising.\n\n?Racing all over the world: 7 different locations with different track characteristics and richly detailed backdrops, decorated with ramps and tunnels with 14 different neon illumination designs, ensuring there’s always something to look at out the window.\n\n?What’s in your garage? 7 classic sports cars to collect and customize as you race through the levels in the game. Place high in every race to earn more cash, tune your car’s engine for ultimate speed, acceleration and handling, add exciting accessories and choose between 15 different paint jobs to really pimp your ride.\n\n? Hear me roar: who needs music when you have the roar of high-performance engines, the screech of tires and the crunch of colliding metal? Enjoy the rich sound world of Race Master 3D alongside simple but striking graphics and spectacular crash effects that’ll shake your bones every time you come spinning off the track or grind to a thudding halt.\n\n? THE ULTIMATE POCKET RACER… ?\n\nLooking for a racing game that’s easy to play, provides a real driving challenge, and offers excitement and endless variation, cools cars and dangerous rivals, all in fast and furious races that can be run in a matter of minutes? \n\nKeep Race Master 3D in your pocket and you’ll have instant access to awesome driving thrills anytime, any place and anywhere, trying again and again to reach the podium despite a series of increasingly surreal and testing obstacles that come rushing at you down the track in a crazy, colorful whirl.\nDownload now to find out if you can be the master of the track in the wackiest, wildest, winningest mobile racing game available.\n\nPrivacy Policy: https://say.games/privacy-policy\nTerms of Use: https://say.games/terms-of-use', 'https://play.google.com/store/apps/details?id=com.easygames.race', 'https://play-lh.googleusercontent.com/qW1SrW0Gyr3JRMNrTqMjFwcvZVjLP6-Wp2tDY8Z9UWzf2_XteCit8n9CNEGpnHOEFS8'),
 (48, 'MARVEL SNAP', 'Strategy', 'Nuverse', '5,000,000+', 'Assemble your MARVEL dream team from a super roster of your favorite heroes and villains—then make your move. MARVEL SNAP is fast-paced, adrenaline-pumping, strategic card battler that puts you in control of it all.\n\nSUPER FAST GAMES \nNo more waiting around! Every game lasts only around three minutes. We cut out the fluff to focus more on the good stuff. \n\nEVERY MATCH FEELS DIFFERENT \nPlay your cards at 50+ different locations from across the Marvel Universe, each with iconic game-changing abilities. From Asgard to Wakanda, new locations are introduced weekly to put your creative problem-solving skills to the test. \n\n\"SNAP\" TO RAISE THE STAKES (AND RISE THE RANKS) \nFeeling confident about your chances of winning? Just \"SNAP\" to raise the stakes during a match. Hey, even if you\'re bluffing—you could double your rewards!\n\nCOLLECT AND UPGRADE YOUR MARVEL FAVORITES \nNo other game lets you collect, mix, and match hundreds of hero and villain variants from the entire MARVEL Universe—and beyond. You might have a classic comic inspired Iron Man card, but do you also have the Chibi, 8-bit, and Cartoon variants? Endless art styles let you flex your favorites in unique new ways. You do YOU! \n\nDAILY, WEEKLY, & MONTHLY UPDATES \nMARVEL SNAP stays fresh and exciting with new cards, new locations, new cosmetics, new season passes, new ranked seasons, new challenges, new missions, and new events on the regular. \n\nCome harness the power of every Cosmic Cube in the Multiverse and see how you measure up against the competition. That\'s MARVEL SNAP! See you in game.', 'https://play.google.com/store/apps/details?id=com.nvsgames.snap', 'https://play-lh.googleusercontent.com/2Zuk6hJLAfqP3HjG0_8PNpnKzKpECfPKN0bYIuPeVYHWGEsS8Lyv450HIiVAIZpn7w'),
 (49, 'Rainbow Impostor Survivor 3D', 'Action', 'ABI Global LTD', '5,000,000+', 'In Rainbow Impostor Survivor 3D, you will play as an impostor who has been kidnapped during a school trip to an amusement park called Spooky park. From the moment of your capture, the impostor must survive five nights in the strange location that’s entirely empty of life except for you and the Rainbow Monster.\n\n? How to play Rainbow Impostor Survivor 3D:\n- Use the joystick to move and the box to hide \n- Find all the item to defeat all the rainbow monsters.\n- Cooperate with impostor team to complete the mission in limited time\n\n?GAME FEATURES \n- Amazing 3D graphics and sound effects\n- Suspenseful gameplay and thrilling quests\n- Fun and addictive gameplay for all ages\n- Many more unique features coming soon\n\nSurvivor In Rainbow Buddy is a horror but fun experience that you can\'t afford to miss. Facing the monsters seemingly nice and friendly turns into a terrifying nightmare.\n\nEnjoy the mobile version of the horror Rainbow Games 3D now', 'https://play.google.com/store/apps/details?id=com.xd.rainbow.survivor', 'https://play-lh.googleusercontent.com/5V3YtoptaKk12UJFp-A-79Q0ozADOtCoLFY49vfQKPwVQjtfBi7yM3kEZmBwUCTQbQ'),
-(50, 'Bridge Race', 'Casual', 'Supersonic Studios LTD', '100,000,000+', 'Best Racing Game ever with approximately 250 Million downloads! Try to build your own Bridge by competing with others for collectible blocks! You should look out for potential looters.\n\nJoin the adventure with more than 1000 levels that contain mechanisms such as sliders, trampolines, zip-lines, ladders, and elevators! Collect blocks of your own color and build bridges with them.\n\nThe main features of the game include:\n● Customize the Color of the Character and Blocks: You can play with more than 80 different types of characters, choose more than 30 blocks, and more than 30 colors! Customize your character skins but also the color of the character!\n● Bundles: You can also get bundles containing exciting characters, blocks, and unique character animations!\n● Road Map: You can see your road map and get back to the same level in order to get better results maybe even perfection! You can play all around the world in different cities!\n● Leaderboard: Be faster and collect more and get more stars in order to climb up in the leaderboard! ', 'https://play.google.com/store/apps/details?id=com.Garawell.BridgeRace', 'https://play-lh.googleusercontent.com/vApXsDiH63SPvBtqPXgiUD5-8xWY9OP_6rxtStUjN8i52H5sjga1Dlw9hXRV1xUIBXKm');
+(50, 'Bridge Race', 'Casual', 'Supersonic Studios LTD', '100,000,000+', 'Best Racing Game ever with approximately 250 Million downloads! Try to build your own Bridge by competing with others for collectible blocks! You should look out for potential looters.\n\nJoin the adventure with more than 1000 levels that contain mechanisms such as sliders, trampolines, zip-lines, ladders, and elevators! Collect blocks of your own color and build bridges with them.\n\nThe main features of the game include:\n● Customize the Color of the Character and Blocks: You can play with more than 80 different types of characters, choose more than 30 blocks, and more than 30 colors! Customize your character skins but also the color of the character!\n● Bundles: You can also get bundles containing exciting characters, blocks, and unique character animations!\n● Road Map: You can see your road map and get back to the same level in order to get better results maybe even perfection! You can play all around the world in different cities!\n● Leaderboard: Be faster and collect more and get more stars in order to climb up in the leaderboard! ', 'https://play.google.com/store/apps/details?id=com.Garawell.BridgeRace', 'https://play-lh.googleusercontent.com/vApXsDiH63SPvBtqPXgiUD5-8xWY9OP_6rxtStUjN8i52H5sjga1Dlw9hXRV1xUIBXKm'),
+(51, ' again Race', ' againupdatedCasual', 'againupdatedSupersonic Studios LTD', '1**again*00,000+', 'again Racing Game ever with approximately 250 Million downloads! Try to build your own Bridge by competing with otheen perfection! You can play all around the world in different cities!\n● Leaderboard: Be faster and collect more and get more stars in order to climb up in the leaderboard! ', 'again:*****//play.google.com/store/apps/details?id=com.Garawell.BridgeRace', 'htupdated******lay-lh.googleusercontent.com/vApXsDiH63SPvBtqPXgiUD5-8xWY9OP_6rxtStUjN8i52H5sjga1Dlw9hXRV1xUIBXKm');
 
 -- --------------------------------------------------------
 
@@ -108,8 +109,7 @@ DROP TABLE IF EXISTS `author`;
 CREATE TABLE `author` (
   `author_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `num_reviews` int(11) NOT NULL,
-  `review_id` int(11) NOT NULL
+  `num_reviews` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -509,7 +509,8 @@ INSERT INTO `game` (`game_id`, `title`, `thumbnail`, `short_description`, `game_
 (368, 'Habbo', 'https://www.freetogame.com/g/432/thumbnail.jpg', 'One of the largest and most popular Social MMO.', 'https://www.freetogame.com/open/habbo', '2001-09-26', 'Social', 'Web Browser', 'Sulake Corporation', 'Sulake Corporation'),
 (369, 'Anarchy Online', 'https://www.freetogame.com/g/336/thumbnail.jpg', 'A free to play Sci-Fi MMO that has withstood the test of time.', 'https://www.freetogame.com/open/anarchy-online', '2001-06-27', 'MMORPG', 'PC (Windows)', 'Funcom', 'Funcom'),
 (370, 'The Lord of the Rings Online', 'https://www.freetogame.com/g/251/thumbnail.jpg', 'A free to play MMORPG set in the world of J.R.R. Tolkien\'s \r\nclassic fantasy saga.', 'https://www.freetogame.com/open/lotro', '2001-04-24', 'MMORPG', 'PC (Windows)', 'Warner Bros. Interactive Entertainment', 'Turbine, Inc.'),
-(371, 'Tibia', 'https://www.freetogame.com/g/339/thumbnail.jpg', 'A old-school free-to-play massively multiplayer online \r\nrole-playing game.', 'https://www.freetogame.com/open/tibia', '1997-01-07', 'MMORPG', 'PC (Windows)', 'CipSoft', 'CipSoft');
+(371, 'Tibia', 'https://www.freetogame.com/g/339/thumbnail.jpg', 'A old-school free-to-play massively multiplayer online \r\nrole-playing game.', 'https://www.freetogame.com/open/tibia', '1997-01-07', 'MMORPG', 'PC (Windows)', 'CipSoft', 'CipSoft'),
+(372, 'this a new record', 'https://www.freetogame.com/g/339/thumbnail.jpg', 'A old-school free-to-play massively multiplayer online \r\nrole-playing game.', 'https://www.freetogame.com/open/tibia', '1997-01-07', 'MMORPG', 'PC (Windows)', 'CipSoft', 'CipSoft');
 
 -- --------------------------------------------------------
 
@@ -540,8 +541,7 @@ ALTER TABLE `app`
 -- Indexes for table `author`
 --
 ALTER TABLE `author`
-  ADD PRIMARY KEY (`author_id`),
-  ADD KEY `Fk_reviewToAuthor` (`review_id`);
+  ADD PRIMARY KEY (`author_id`);
 
 --
 -- Indexes for table `game`
@@ -565,19 +565,19 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT for table `app`
 --
 ALTER TABLE `app`
-  MODIFY `app_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `app_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
-  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `game`
 --
 ALTER TABLE `game`
-  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
+  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=373;
 
 --
 -- AUTO_INCREMENT for table `review`
@@ -588,12 +588,6 @@ ALTER TABLE `review`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `author`
---
-ALTER TABLE `author`
-  ADD CONSTRAINT `Fk_reviewToAuthor` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `review`
