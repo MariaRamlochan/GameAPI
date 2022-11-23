@@ -50,7 +50,8 @@ $app->get("/games/{game_id}", "handleGetGameById");
 
 $app->post("/games", "handleCreateGames");
 $app->put("/games", "handleUpdateGames");
-$app->delete("/games/{game_id}", "handleDeleteGame");
+$app->delete("/games/{game_id}", "handleDeleteGameById");
+$app->delete("/games", "handleDeleteGames");
 //-------------------------- REVIEW ------------------------------------
 $app->get("/reviews", "handleGetAllReviews");
 $app->get("/reviews/{review_id}", "handleGetReviewById");
