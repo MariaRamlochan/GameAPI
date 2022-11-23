@@ -80,7 +80,8 @@ async function updateGameEntries(gameID){
             
             headers: {
                 "Accept": "application/json",
-            }
+            },
+            body:'{"FOR LATER"}'
         };
     
         //-- 1) Create a Request object

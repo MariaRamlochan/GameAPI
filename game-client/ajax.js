@@ -33,7 +33,7 @@ function renderGames(games) {
                     <tr>   
                         <th>Game ID</th>
                         <th>Title</th>
-                        <th>Short Descrip</th>
+                        <th>Short Description</th>
                         <th>Game Url</th>
                         <th>Release Date</th>
                         <th>Genre</th>
