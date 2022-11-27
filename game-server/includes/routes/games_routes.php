@@ -85,15 +85,13 @@ function handleGetGameById(Request $request, Response $response, array $args) {
 }
 
 function handleCreateGames(Request $request, Response $response, array $args) {
-    $game_info = array();
-    $response_data = array();
     $response_code = HTTP_OK;
     $game_model = new GameModel();
     $data = $request->getParsedBody();
 
     // Fetch the info about the specified game.
-    for ($index = 0; $index < count($data); $index++){
-        $single_game = $data[$index];
+    foreach($data as $key => $single_game){
+        //$single_game = $data[$index];
         //$gameId = $single_game["game_id"];
         $gameTitle = $single_game["title"];
         $gameThumbnail = $single_game["thumbnail"];
@@ -106,7 +104,6 @@ function handleCreateGames(Request $request, Response $response, array $args) {
         $developer = $single_game["developer"];
 
         $new_game_record = array(
-           // "game_id"=>$gameId,
             "title"=>$gameTitle,
             "thumbnail"=>$gameThumbnail,
             "short_description"=>$gameDescription,
@@ -117,9 +114,8 @@ function handleCreateGames(Request $request, Response $response, array $args) {
             "publisher"=>$publisher,
             "developer"=>$developer,
         );
-        $game_info = $game_model->createGames($new_game_record);
+        $game_model->createGames($new_game_record);
     }
-
     $html = var_export($data, true);
     $response->getBody()->write($html);
     return $response->withStatus($response_code);
