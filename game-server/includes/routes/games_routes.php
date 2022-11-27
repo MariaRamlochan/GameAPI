@@ -125,9 +125,6 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
     
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
-
-    //-- Go over elements stored in the $data array
-    //-- In a for/each loop
     $game_model = new GameModel(); 
     
     //Create Empty array to insert what we would like to update    
@@ -170,8 +167,24 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
 
         //-- We perform an UPDATE SQL statement
          $data = $game_model->updateGames($existing_game, array("game_id" => $existing_gameId));
+         if (!$data) {
+            // No matches found?
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
     }
-    $response->getBody()->write("Request Done");
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Games has been Updated", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
 
@@ -180,9 +193,8 @@ function handleDeleteGameById(Request $request, Response $response, array $args)
     $response_data = array();
     $response_code = HTTP_OK;
     $game_model = new GameModel();
-    $data = $request->getParsedBody();
 
-    // Retreive the artist from the request's URI.
+    // Retreive the gama from the request's URI.
     $game_id = $args["game_id"];
     if (isset($game_id)) {
         // Fetch the info about the specified game.
@@ -190,7 +202,7 @@ function handleDeleteGameById(Request $request, Response $response, array $args)
         $game_info = "Game has been DELETED";
         if (!$game_info) {
             // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified artist.");
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
@@ -200,6 +212,7 @@ function handleDeleteGameById(Request $request, Response $response, array $args)
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($game_info, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Game has been deleted", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
@@ -209,30 +222,34 @@ function handleDeleteGameById(Request $request, Response $response, array $args)
 }
 
 function handleDeleteGames(Request $request, Response $response, array $args) {
-    $game_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
     $game_model = new GameModel();
     $data = $request->getParsedBody();
+    $game_id = "";
 
-    // Retreive the artist from the request's URI.
-    $game_id = $args["game_id"];
-    if (isset($game_id)) {
-        // Fetch the info about the specified game.
-        $game_model->deleteGames(array("game_id"=>$game_id));
-        $game_info = "Game has been DELETED";
-        if (!$game_info) {
-            // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified artist.");
-            $response->getBody()->write($response_data);
-            return $response->withStatus(HTTP_NOT_FOUND);
+    // Retreive the game from the request's URI.
+    foreach($data as $key => $single_game){
+        $game_id = $single_game["game_id"];
+        if (isset($game_id)) {
+
+            // Fetch the info about the specified game.
+            $game_model->deleteGames(array("game_id"=>$game_id));
+            if (!$data) {
+                // No matches found?
+                $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
         }
-    } 
+    }
+
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($game_info, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Games has been deleted", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;

@@ -1,6 +1,8 @@
 var ajaxObj;
 
-//-----------GAME-----------
+
+
+// -----------------------DISPLAY THE LIST OF ALL GAMES-----------------------
 
 async function getListOfGames(){
     //-- We'll implement an AJAX call using the Fetch Api
@@ -33,7 +35,7 @@ function renderGames(games) {
                     <tr>   
                         <th>Game ID</th>
                         <th>Title</th>
-                        <th>Short Description</th>
+                        <th>Short Descrip</th>
                         <th>Game Url</th>
                         <th>Release Date</th>
                         <th>Genre</th>
@@ -67,17 +69,19 @@ function renderGames(games) {
         itemsCountBadge.innerHTML = games.length;
 }
 
-//------------APP------------
 
-async function getListOfApps(){
+// -----------------------UPDATE THE ENTRIE(S) OF A GAME-----------------------
+
+async function updateGameEntries(gameID){
     //-- We'll implement an AJAX call using the Fetch Api
-        let resourceUri = "http://localhost/GameAPI/game-server/apps";
+        let resourceUri = "http://localhost/GameAPI/game-server/games/"+gameID+"";
         const options = {
-            method: "GET",
+            method: "PUT",
             
             headers: {
                 "Accept": "application/json",
-            }
+            },
+            body:'{"FOR LATER"}'
         };
     
         //-- 1) Create a Request object
@@ -89,49 +93,50 @@ async function getListOfApps(){
             //-- 4) We can parse the data
             data = await response.json();
             //console.log(data);
-            renderApps(data);
+            parseGameByID(data, gameID);
         }
 } 
 
-function renderApps(apps) {
+function parseGameByID(games, gameID) {
     //-- Convert the plaintext representation of the data into in-memory.
         let rows = "";
         rows += `<thead>
                     <tr>   
-                        <th>APP ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
+                        <th>Game ID</th>
+                        <th>Title</th>
+                        <th>Short Descrip</th>
+                        <th>Game Url</th>
+                        <th>Release Date</th>
+                        <th>Genre</th>
+                        <th>Platform</th>
+                        <th>Publisher</th>
                         <th>Developer</th>
-                        <th>Downloads</th>
-                        <th>Description</th>
-                        <th>APP Url</th>
-                        <th>Icon</th>
+                        <th>Thumbnail</th>
                     </tr>
                 </thead>
                 <tbody>`
 
-        for (var item in apps) {
-            var app = apps[item];
+        for (var item in games) {
+            var game = games[item];
             rows += `<tr> 
-                        <td>${app.app_id}</td>   
-                        <td>${app.app_name}</td>
-                        <td>${app.app_category}</td> 
-                        <td>${app.app_developer}</td>
-                        <td>${app.num_downloads}</td> 
-                        <td>${app.app_description}</td> 
-                        <td>${app.app_url}</td> 
-                        <td><image src="${app.app_icon}" width="500%" height="auto"</td> 
+                        <td>${game.game_id}</td>   
+                        <td>${game.title}</td>
+                        <td>${game.short_description}</td>   
+                        <td>${game.game_url}</td>
+                        <td>${game.release_date}</td>
+                        <td>${game.genre}</td>
+                        <td>${game.platform}</td>
+                        <td>${game.publisher}</td>
+                        <td>${game.developer}</td>
+                        <td><image src="${game.thumbnail}"></td>
                     </tr>`;
         }
         rows += `</tbody>`;
         let tableContainer = document.getElementById("dynamicTable");
-        let itemsCountBadge = document.getElementById("appsBadgeNum");
+        let itemsCountBadge = document.getElementById("gamesBadgeNum");
         tableContainer.innerHTML = rows;
-        itemsCountBadge.innerHTML = apps.length;
+        itemsCountBadge.innerHTML = games.length;
 }
 
-//----------STREAMER----------
 
 
-
-//----------REVIEWS-----------

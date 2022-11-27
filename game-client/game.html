@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Game List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="ajax.js" type="text/javascript"></script>
+</head>
+  <body>
+    <div class="container">
+        <h1>Game API Update testing</h1>
+
+        <hr/>
+        <button class="btn btn-primary" onclick="updateGameEntries(document.getElementById('gameID').value)">Update Game</button>
+        <hr/>
+        
+        <div>
+            <a>Game ID: </a> 
+            <input id="gameID" type="text" placeholder="Game ID" > <br><br>
+            <a>Title: </a> 
+            <input id="gameTitle" type="text" placeholder="Title" > <br><br>
+            <a>Short Description: </a> 
+            <input id="gameDescrip" type="text" placeholder="Short Description" > <br><br>
+            <a>Game Url: </a> 
+            <input id="gameUrl" type="text" placeholder="Game Url" > <br><br>
+            <a>Release Date: </a> 
+            <input id="gameRDate" type="text" placeholder="Release Date" > <br><br>
+            <a>Genre: </a> 
+            <input id="gameGenre" type="text" placeholder="Genre" > <br><br>
+            <a>Platform: </a> 
+            <input id="gamePlat" type="text" placeholder="Platform" > <br><br>
+            <a>Publisher: </a> 
+            <input id="gamePub" type="text" placeholder="Publisher" > <br><br>
+            <a>Developer: </a>  
+            <input id="gameDev" type="text" placeholder="Developer" > <br><br>
+            <a>Thumbnail: </a> 
+            <input id="gameThumb" type="text" placeholder="Thumbnail" > <br>
+        </div>
+        
+       
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  </body>
+</html>
