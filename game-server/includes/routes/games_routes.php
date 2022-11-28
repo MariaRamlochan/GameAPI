@@ -86,38 +86,57 @@ function handleGetGameById(Request $request, Response $response, array $args) {
 
 function handleCreateGames(Request $request, Response $response, array $args) {
     $response_code = HTTP_OK;
+    $new_game_record = array();
     $game_model = new GameModel();
     $data = $request->getParsedBody();
 
+    
+
     // Fetch the info about the specified game.
     foreach($data as $key => $single_game){
-        //$single_game = $data[$index];
-        //$gameId = $single_game["game_id"];
-        $gameTitle = $single_game["title"];
-        $gameThumbnail = $single_game["thumbnail"];
-        $gameDescription = $single_game["short_description"];
-        $gameURL = $single_game["game_url"];
-        $gameReleaseDate = $single_game["release_date"];
-        $genre = $single_game["genre"];
-        $platform = $single_game["platform"];
-        $publisher = $single_game["publisher"];
-        $developer = $single_game["developer"];
+        if(isset($single_game["title"]) && isset($single_game["thumbnail"]) && isset($single_game["game_url"]) && isset($single_game["release_date"])
+         && isset($single_game["genre"]) && isset($single_game["platform"])&& isset($single_game["developer"])
+         && isset($single_game["short_description"]) && isset($single_game["game_url"])){
 
-        $new_game_record = array(
-            "title"=>$gameTitle,
-            "thumbnail"=>$gameThumbnail,
-            "short_description"=>$gameDescription,
-            "game_url"=>$gameURL,
-            "release_date"=>$gameReleaseDate,
-            "genre"=>$genre,
-            "platform"=>$platform,
-            "publisher"=>$publisher,
-            "developer"=>$developer,
-        );
-        $game_model->createGames($new_game_record);
+            $gameTitle = $single_game["title"];
+            $gameThumbnail = $single_game["thumbnail"];
+            $gameDescription = $single_game["short_description"];
+            $gameURL = $single_game["game_url"];
+            $gameReleaseDate = $single_game["release_date"];
+            $genre = $single_game["genre"];
+            $platform = $single_game["platform"];
+            $publisher = $single_game["publisher"];
+            $developer = $single_game["developer"];
+    
+            $new_game_record = array(
+                "title"=>$gameTitle,
+                "thumbnail"=>$gameThumbnail,
+                "short_description"=>$gameDescription,
+                "game_url"=>$gameURL,
+                "release_date"=>$gameReleaseDate,
+                "genre"=>$genre,
+                "platform"=>$platform,
+                "publisher"=>$publisher,
+                "developer"=>$developer);
+        }else{
+            $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
     }
-    $html = var_export($data, true);
-    $response->getBody()->write($html);
+        
+    $game_model->createGames($new_game_record);
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Games has been Created!", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
 
@@ -133,15 +152,24 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
     //Check which key we want to update
     foreach($data as $key => $single_game){
 
-        //Retreive the Game Id for the specific game we want to update
-        $existing_gameId = $single_game["game_id"];
+        
 
         //-- Check data set and retrieve the key and its value
+        if(isset($single_game["game_id"])){
+            //Retreive the Game Id for the specific game we want to update
+            $existing_gameId = $single_game["game_id"];
+            if($game_model->getGameById($existing_gameId) == null){
+                $response_data = makeCustomJSONError("resourceNotFound", "no gameID found");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
+        }
+        
         if(isset($single_game["title"])){
             $existing_game["title"] = $single_game["title"];
         }
         if(isset($single_game["thumbnail"])){
-            $existing_game["short_description"] = $single_game["short_description"];
+            $existing_game["thumbnail"] = $single_game["thumbnail"];
         }
         if(isset($single_game["game_url"])){
             $existing_game["game_url"] = $single_game["game_url"];
@@ -166,13 +194,7 @@ function handleUpdateGames(Request $request, Response $response, array $args) {
         }
 
         //-- We perform an UPDATE SQL statement
-         $data = $game_model->updateGames($existing_game, array("game_id" => $existing_gameId));
-         if (!$data) {
-            // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
-            $response->getBody()->write($response_data);
-            return $response->withStatus(HTTP_NOT_FOUND);
-        }
+         $game_model->updateGames($existing_game, array("game_id" => $existing_gameId));
     }
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
