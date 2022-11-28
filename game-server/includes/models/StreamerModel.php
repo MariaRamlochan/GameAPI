@@ -22,6 +22,17 @@ class StreamerModel extends BaseModel {
     }
 
     /**
+     * Retrieve a Streamer by its id.
+     * @param int $streamer_id the id of the streamer.
+     * @return array an array containing information about a given streamer.
+     */
+    public function getStreamersById($streamer_id) {
+        $sql = "SELECT * FROM streamer WHERE streamer_id = ?";
+        $data = $this->run($sql, [$streamer_id])->fetch();
+        return $data;
+    }
+
+    /**
      * Get a list of twitch streamers whos name matches or contains the provided value.       
      * @param string $streamer_name 
      * @return array An array containing the matches found.
