@@ -70,16 +70,16 @@ function handleGetReviewById(Request $request, Response $response, array $args) 
 }
 
 function handleCreateReviews(Request $request, Response $response, array $args) {
-    $review_info = array();
-    $response_data = array();
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
     $data = $request->getParsedBody();
 
     // Fetch the info about the specified review.
-    for ($index = 0; $index < count($data); $index++){
-        $single_review = $data[$index];
-        //$reviewId = $single_review["review_id"];
+    foreach($data as $key => $single_review){
+        if(isset($single_game["title"]) && isset($single_game["thumbnail"]) && isset($single_game["game_url"]) && isset($single_game["release_date"])
+         && isset($single_game["genre"])){
+            
+         }
         $reviewText = $single_review["review_text"];
         $rating = $single_review["rating"];
         $gameId = $single_review["game_id"];

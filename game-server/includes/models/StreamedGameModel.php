@@ -42,7 +42,7 @@ class streamedModel extends BaseModel {
         $data = $this->run($sql, [":game_id" => "%" . $game_id . "%"])->fetchAll();
         return $data;
     }
-f
+
     /**
      * Get a list of twitch streamed games by where game matches the provided value.       
      * @param string $streamer_id

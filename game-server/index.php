@@ -37,6 +37,7 @@ $app->get("/apps/{app_id}", "handleGetAppById");
 $app->post("/apps", "handleCreateApps");
 $app->put("/apps", "handleUpdateApps");
 $app->delete("/apps/{app_id}", "handleDeleteApp");
+$app->delete("/apps", "handleDeleteApps");
 //-------------------------- AUTHOR ------------------------------------
 $app->get("/authors", "handleGetAllAuthors");
 $app->get("/authors/{author_id}", "handleGetAuthorById");
@@ -44,6 +45,7 @@ $app->get("/authors/{author_id}", "handleGetAuthorById");
 $app->post("/authors", "handleCreateAuthors");
 $app->put("/authors", "handleUpdateAuthors");
 $app->delete("/authors/{author_id}", "handleDeleteAuthor");
+$app->delete("/authors", "handleDeleteAuthors");
 //-------------------------- GAME --------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");

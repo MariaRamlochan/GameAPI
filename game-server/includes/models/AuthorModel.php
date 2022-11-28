@@ -37,7 +37,7 @@ class AuthorModel extends BaseModel {
      * @param int $author_id the id of the author.
      * @return array an array containing information about a given author.
      */
-    public function getAuthorsById($author_id) {
+    public function getAuthorById($author_id) {
         $sql = "SELECT * FROM author WHERE author_id = ?";
         $data = $this->run($sql, [$author_id])->fetch();
         return $data;

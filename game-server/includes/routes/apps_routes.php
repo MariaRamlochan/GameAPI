@@ -79,39 +79,53 @@ function handleGetAppById(Request $request, Response $response, array $args) {
 }
 
 function handleCreateApps(Request $request, Response $response, array $args) {
-    $app_info = array();
-    $response_data = array();
+    $new_app_record = array();
     $response_code = HTTP_OK;
     $app_model = new AppModel();
     $data = $request->getParsedBody();
 
     // Fetch the info about the specified app.
-    for ($index = 0; $index < count($data); $index++){
-        $single_app = $data[$index];
-        //$appId = $single_app["app_id"];
-        $appName = $single_app["app_name"];
-        $appCategory = $single_app["app_category"];
-        $appDeveloper = $single_app["app_developer"];
-        $numDownloads = $single_app["num_downloads"];
-        $appDescription = $single_app["app_description"];
-        $appURL = $single_app["app_url"];
-        $appIcon = $single_app["app_icon"];
+    foreach($data as $key => $single_app){
+        if(isset($single_app["app_name"]) && isset($single_app["app_category"]) && isset($single_app["app_developer"]) 
+        && isset($single_app["num_downloads"])&& isset($single_app["app_description"]) 
+        && isset($single_app["app_url"]) && isset($single_app["app_icon"])){
 
-        $new_app_record = array(
-           //"app_id"=>$reviewId,
-            "app_name"=>$appName,
-            "app_category"=>$appCategory,
-            "app_developer"=>$appDeveloper,
-            "num_downloads"=>$numDownloads,
-            "app_description"=>$appDescription,
-            "app_url"=>$appURL,
-            "app_icon"=>$appIcon
-        );
-        $app_info = $app_model->createAppGames($new_app_record);
+            $appName = $single_app["app_name"];
+            $appCategory = $single_app["app_category"];
+            $appDeveloper = $single_app["app_developer"];
+            $numDownloads = $single_app["num_downloads"];
+            $appDescription = $single_app["app_description"];
+            $appURL = $single_app["app_url"];
+            $appIcon = $single_app["app_icon"];
+
+            $new_app_record = array(
+                "app_name"=>$appName,
+                "app_category"=>$appCategory,
+                "app_developer"=>$appDeveloper,
+                "num_downloads"=>$numDownloads,
+                "app_description"=>$appDescription,
+                "app_url"=>$appURL,
+                "app_icon"=>$appIcon
+            );
+        }else{
+            $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        } 
     }
 
-    $html = var_export($data, true);
-    $response->getBody()->write($html);
+    $app_model->createAppGames($new_app_record);
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Apps has been Created!", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
 
@@ -119,9 +133,6 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
 
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
-
-    //-- Go over elements stored in the $data array
-    //-- In a for/each loop
     $app_model = new AppModel(); 
 
      //Create Empty array to insert what we would like to update    
@@ -130,8 +141,18 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
     //-- We retrieve the key and its value
     foreach($data as $key => $single_app){
 
-        //Retreive the Game Id for the specific game we want to update
+        //-- Check data set and retrieve the key and its value
+        if(isset($single_app["app_id"])){
+            //Retreive the App Id for the specific game we want to update
         $existing_appId = $single_app["app_id"];
+            if($app_model->getAppGameById($existing_appId) == null){
+                $response_data = makeCustomJSONError("resourceNotFound", "no appID found");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
+        }
+
+        
 
         //-- Check data set and retrieve the key and its value
         if(isset($single_app["app_name"])){
@@ -158,14 +179,20 @@ function handleUpdateApps(Request $request, Response $response, array $args) {
         if(isset($single_app["num_downloads"])){
             $existing_apps_record["num_downloads"] = $single_app["num_downloads"];
         }
-
-        
-        //-- We perform an UPDATE/CREATE SQL statement
-        $app_model->updateAppGames($existing_apps_record, array("app_id"=>$existing_appId));
     }
-
-    $html = var_export($data, true);
-    $response->getBody()->write($html);
+ //-- We perform an UPDATE/CREATE SQL statement
+        $app_model->updateAppGames($existing_apps_record, array("app_id"=>$existing_appId));
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "App has been Updated", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
 
@@ -194,6 +221,43 @@ function handleDeleteApp(Request $request, Response $response, array $args) {
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($app_info, JSON_INVALID_UTF8_SUBSTITUTE);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
+}
+
+function handleDeleteApps(Request $request, Response $response, array $args) {
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $app_model = new AppModel();
+    $data = $request->getParsedBody();
+    $app_id = "";
+
+    // Retreive the app from the request's URI.
+    foreach($data as $key => $single_app){
+        $app_id = $single_app["app_id"];
+        if (isset($app_id)) {
+
+            // Fetch the info about the specified game.
+            $app_model->deleteAppGames(array("app_id"=>$app_id));
+            if (!$data) {
+                // No matches found?
+                $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified app.");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
+        }
+    }
+
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Apps has been deleted", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
