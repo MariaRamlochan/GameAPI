@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2022 at 05:26 AM
+-- Generation Time: Nov 28, 2022 at 03:47 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -594,7 +594,9 @@ ALTER TABLE `streamer`
 -- Indexes for table `streamer_games`
 --
 ALTER TABLE `streamer_games`
-  ADD PRIMARY KEY (`streamed_id`);
+  ADD PRIMARY KEY (`streamed_id`),
+  ADD KEY `streamed_game_id` (`game_id`),
+  ADD KEY `streamed_streamer_id` (`streamer_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -646,6 +648,13 @@ ALTER TABLE `streamer_games`
 ALTER TABLE `review`
   ADD CONSTRAINT `Fk_authorIdToAuthor` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Fk_reviewToGame` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `streamer_games`
+--
+ALTER TABLE `streamer_games`
+  ADD CONSTRAINT `streamed_game_id` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `streamed_streamer_id` FOREIGN KEY (`streamer_id`) REFERENCES `streamer` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
