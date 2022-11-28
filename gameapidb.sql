@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2022 at 05:33 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Nov 28, 2022 at 05:26 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -527,6 +527,33 @@ CREATE TABLE `review` (
   `author_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `streamer`
+--
+
+DROP TABLE IF EXISTS `streamer`;
+CREATE TABLE `streamer` (
+  `streamer_id` int(11) NOT NULL,
+  `streamer_url` text NOT NULL,
+  `streamer_name` varchar(50) NOT NULL,
+  `streamed_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `streamer_games`
+--
+
+DROP TABLE IF EXISTS `streamer_games`;
+CREATE TABLE `streamer_games` (
+  `streamed_id` int(11) NOT NULL,
+  `streamer_id` int(11) NOT NULL,
+  `game_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -558,6 +585,18 @@ ALTER TABLE `review`
   ADD KEY `Fk_authorIdToAuthor` (`author_id`);
 
 --
+-- Indexes for table `streamer`
+--
+ALTER TABLE `streamer`
+  ADD PRIMARY KEY (`streamer_id`);
+
+--
+-- Indexes for table `streamer_games`
+--
+ALTER TABLE `streamer_games`
+  ADD PRIMARY KEY (`streamed_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -584,6 +623,18 @@ ALTER TABLE `game`
 --
 ALTER TABLE `review`
   MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `streamer`
+--
+ALTER TABLE `streamer`
+  MODIFY `streamer_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `streamer_games`
+--
+ALTER TABLE `streamer_games`
+  MODIFY `streamed_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
