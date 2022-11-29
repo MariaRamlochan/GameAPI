@@ -5,31 +5,31 @@ use Slim\Factory\AppFactory;
 use GuzzleHttp\Client;
 
 require_once __DIR__ . './../models/BaseModel.php';
-require_once __DIR__ . './../models/AuthorModel.php';
+require_once __DIR__ . './../models/StreamerModel.php';
 
-// Callback for HTTP GET /authors
-//-- Supported filtering operation: by author name.
-function handleGetAllAuthors(Request $request, Response $response, array $args) {
-    $authors = array();
+// Callback for HTTP GET /streamers
+//-- Supported filtering operation: by streamer name.
+function handleGetAllStreamers(Request $request, Response $response, array $args) {
+    $streamers = array();
     $response_data = array();
     $response_code = HTTP_OK;
-    $author_model = new AuthorModel();
+    $streamer_model = new StreamerModel();
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
     if (isset($filter_params["name"])) {
-        // Fetch the list of authors matching the provided name.
-        $authors = $author_model->getWhereLike($filter_params["name"]);
+        // Fetch the list of streamers matching the provided name.
+        $streamers = $streamer_model->getStreamerByName($filter_params["name"]);
     } else {
-        // No filtering by author name detected.
-        $authors = $author_model->getAll();
+        // No filtering by streamer name detected.
+        $streamers = $streamer_model->getAll();
     }    
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //--
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($authors, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = json_encode($streamers, JSON_INVALID_UTF8_SUBSTITUTE);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
@@ -38,20 +38,20 @@ function handleGetAllAuthors(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleGetAuthorById(Request $request, Response $response, array $args) {
-    $author_info = array();
+function handleGetStreamerById(Request $request, Response $response, array $args) {
+    $streamer_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
-    $author_model = new AuthorModel();
+    $streamer_model = new StreamerModel();
 
-    // Retreive the author if from the request's URI.
-    $author_id = $args["author_id"];
-    if (isset($author_id)) {
-        // Fetch the info about the specified author.
-        $author_info = $author_model->getAuthorById($author_id);
-        if (!$author_info) {
+    // Retreive the streamer if from the request's URI.
+    $streamer_id = $args["streamer_id"];
+    if (isset($streamer_id)) {
+        // Fetch the info about the specified streamer.
+        $streamer_info = $streamer_model->getStreamerById($streamer_id);
+        if (!$streamer_info) {
             // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified author.");
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified streamer.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
@@ -60,7 +60,7 @@ function handleGetAuthorById(Request $request, Response $response, array $args) 
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($author_info, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = json_encode($streamer_info, JSON_INVALID_UTF8_SUBSTITUTE);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
@@ -69,23 +69,23 @@ function handleGetAuthorById(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleCreateAuthors(Request $request, Response $response, array $args) {
+function handleCreateStreamers(Request $request, Response $response, array $args) {
     $response_data = array();
     $response_code = HTTP_OK;
-    $author_model = new AuthorModel();
+    $streamer_model = new StreamerModel();
     $data = $request->getParsedBody();
 
 
-    foreach($data as $key => $single_author){
-    // Fetch the info about the specified author.
-        if(isset($single_author["name"]) && isset($single_author["num_reviews"])){
+    foreach($data as $key => $single_streamer){
+    // Fetch the info about the specified streamer.
+        if(isset($single_streamer["streamer_name"]) && isset($single_streamer["streamer_url"])){
 
-            $name = $single_author["name"];
-            $numReviews = $single_author["num_reviews"];
+            $name = $single_streamer["streamer_name"];
+            $url = $single_streamer["streamer_url"];
             
-            $new_author_record = array(
-                "name"=>$name,
-                "num_reviews"=>$numReviews,
+            $new_streamer_record = array(
+                "streamer_name"=>$name,
+                "streamer_url"=>$url,
             );
 
         }else{
@@ -94,13 +94,13 @@ function handleCreateAuthors(Request $request, Response $response, array $args) 
             return $response->withStatus(HTTP_NOT_FOUND);
         }
     }
-    $author_model->createAuthors($new_author_record);
+    $streamer_model->createStreamers($new_streamer_record);
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
-        $response_data = makeCustomJSONError("Success", "Author has been Created!", $response_data);
+        $response_data = makeCustomJSONError("Success", "Streamer has been Created!", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
@@ -109,36 +109,36 @@ function handleCreateAuthors(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleUpdateAuthors(Request $request, Response $response, array $args) {
+function handleUpdateStreamers(Request $request, Response $response, array $args) {
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
-    $author_model = new AuthorModel(); 
+    $streamer_model = new StreamerModel(); 
 
      //Create Empty array to insert what we would like to update    
-     $existing_author = array();
+     $existing_streamer = array();
 
-    foreach($data as $key => $single_author){
+    foreach($data as $key => $single_streamer){
 
         //-- Check data set and retrieve the key and its value
-        if(isset($single_author["author_id"])){
+        if(isset($single_streamer["streamer_id"])){
             //Retreive the auhtor Id for the specific game we want to update
-            $existing_authorId = $single_author["author_id"];
-            if($author_model->getAuthorById($existing_authorId) == null){
-                $response_data = makeCustomJSONError("resourceNotFound", "no authorID found");
+            $existing_streamer_id = $single_streamer["streamer_id"];
+            if($streamer_model->getStreamerById($existing_streamer_id) == null){
+                $response_data = makeCustomJSONError("resourceNotFound", "no streamer ID found");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
             }
         }
 
         //-- We retrieve the key and its value
-        if(isset($single_author["name"])){
-            $existing_author["name"] = $single_author["name"];
+        if(isset($single_streamer["streamer_name"])){
+            $existing_streamer["streamer_name"] = $single_streamer["streamer_name"];
         }
-        if(isset($single_author["num_reviews"])){
-            $existing_author["num_reviews"] = $single_author["num_reviews"];
+        if(isset($single_streamer["streamer_url"])){
+            $existing_streamer["streamer_url"] = $single_streamer["streamer_url"];
         }
         //-- We perform an UPDATE SQL statement
-        $author_model->updateAuthors($existing_author, array("author_id" => $existing_authorId));
+        $streamer_model->updateStreamers($existing_streamer, array("streamer_id" => $existing_streamer_id));
     }
 
     // Handle serve-side content negotiation and produce the requested representation.    
@@ -146,7 +146,7 @@ function handleUpdateAuthors(Request $request, Response $response, array $args) 
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
-        $response_data = makeCustomJSONError("Success", "Author has been Updated", $response_data);
+        $response_data = makeCustomJSONError("Success", "Streamer has been Updated", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
@@ -155,56 +155,23 @@ function handleUpdateAuthors(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleDeleteAuthor(Request $request, Response $response, array $args) {
-    $author_info = array();
+function handleDeleteStreamers(Request $request, Response $response, array $args) {
     $response_data = array();
     $response_code = HTTP_OK;
-    $author_model = new AuthorModel();
+    $streamer_model = new StreamerModel();
     $data = $request->getParsedBody();
-
-    // Retreive the artist from the request's URI.
-    $author_id = $args["author_id"];
-    if (isset($author_id)) {
-        // Fetch the info about the specified author.
-        $author_model->deleteAuthors(array("author_id"=>$author_id));
-        $author_info = "Author has been DELETED";
-        if (!$author_info) {
-            // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified author.");
-            $response->getBody()->write($response_data);
-            return $response->withStatus(HTTP_NOT_FOUND);
-        }
-    } 
-    // Handle serve-side content negotiation and produce the requested representation.    
-    $requested_format = $request->getHeader('Accept');
-    //-- We verify the requested resource representation.    
-    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        $response_data = json_encode($author_info, JSON_INVALID_UTF8_SUBSTITUTE);
-    } else {
-        $response_data = json_encode(getErrorUnsupportedFormat());
-        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
-    }
-    $response->getBody()->write($response_data);
-    return $response->withStatus($response_code);
-}
-
-function handleDeleteAuthors(Request $request, Response $response, array $args) {
-    $response_data = array();
-    $response_code = HTTP_OK;
-    $author_model = new AuthorModel();
-    $data = $request->getParsedBody();
-    $author_id = "";
+    $streamer_id = "";
 
     // Retreive the game from the request's URI.
-    foreach($data as $key => $single_author){
-        $author_id = $single_author["author_id"];
-        if (isset($author_id)) {
+    foreach($data as $key => $single_streamer){
+        $streamer_id = $single_streamer["streamer_id"];
+        if (isset($streamer_id)) {
 
             // Fetch the info about the specified game.
-            $author_model->deleteAuthors(array("author_id"=>$author_id));
+            $streamer_model->deleteStreamers(array("streamer_id"=>$streamer_id));
             if (!$data) {
                 // No matches found?
-                $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified author.");
+                $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified streamer.");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
             }
@@ -217,6 +184,38 @@ function handleDeleteAuthors(Request $request, Response $response, array $args) 
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
         $response_data = makeCustomJSONError("Success", "Authors has been deleted", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
+}
+
+function handleDeleteStreamer(Request $request, Response $response, array $args) {
+    $streamer_info = array();
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $streamer_model = new StreamerModel();
+
+    // Retreive the artist from the request's URI.
+    $streamer_id = $args["streamer_id"];
+    if (isset($streamer_id)) {
+        // Fetch the info about the specified streamer.
+        $streamer_model->deleteStreamers(array("streamer_id"=>$streamer_id));
+        $streamer_info = "Streamer has been DELETED";
+        if (!$streamer_info) {
+            // No matches found?
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified streamer.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
+    } 
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($streamer_info, JSON_INVALID_UTF8_SUBSTITUTE);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;

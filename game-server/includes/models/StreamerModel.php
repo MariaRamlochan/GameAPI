@@ -26,7 +26,7 @@ class StreamerModel extends BaseModel {
      * @param int $streamer_id the id of the streamer.
      * @return array an array containing information about a given streamer.
      */
-    public function getStreamersById($streamer_id) {
+    public function getStreamerById($streamer_id) {
         $sql = "SELECT * FROM streamer WHERE streamer_id = ?";
         $data = $this->run($sql, [$streamer_id])->fetch();
         return $data;
@@ -58,7 +58,7 @@ class StreamerModel extends BaseModel {
     /**
      * Create a list of Streamers
      */
-    public function createStreamer($data) {
+    public function createStreamers($data) {
         $data = $this->insert("streamer", $data);
         return $data;
     }
@@ -66,7 +66,7 @@ class StreamerModel extends BaseModel {
     /**
      * Update a list of Streamers
      */
-    public function updateStreamer($data, $where) {
+    public function updateStreamers($data, $where) {
         $data = $this->update("streamer", $data, $where);
         return $data;
     }
@@ -74,7 +74,7 @@ class StreamerModel extends BaseModel {
     /**
      * Delete a list of Streamers
      */
-    public function deleteStreamer($where) {
+    public function deleteStreamers($where) {
         $data = $this->delete("streamer", $where);
         return $data;
     }

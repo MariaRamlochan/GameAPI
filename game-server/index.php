@@ -26,6 +26,7 @@ require_once './includes/routes/apps_routes.php';
 require_once './includes/routes/authors_routes.php';
 require_once './includes/routes/games_routes.php';
 require_once './includes/routes/reviews_routes.php';
+require_once './includes/routes/streamers_routes.php';
 
 //-- Step 6)
 // TODO: And here we define app routes.
@@ -36,31 +37,40 @@ $app->get("/apps/{app_id}", "handleGetAppById");
 
 $app->post("/apps", "handleCreateApps");
 $app->put("/apps", "handleUpdateApps");
-$app->delete("/apps/{app_id}", "handleDeleteApp");
 $app->delete("/apps", "handleDeleteApps");
+$app->delete("/apps/{app_id}", "handleDeleteApp");
 //-------------------------- AUTHOR ------------------------------------
 $app->get("/authors", "handleGetAllAuthors");
 $app->get("/authors/{author_id}", "handleGetAuthorById");
 
 $app->post("/authors", "handleCreateAuthors");
 $app->put("/authors", "handleUpdateAuthors");
-$app->delete("/authors/{author_id}", "handleDeleteAuthor");
 $app->delete("/authors", "handleDeleteAuthors");
+$app->delete("/authors/{author_id}", "handleDeleteAuthor");
 //-------------------------- GAME --------------------------------------
 $app->get("/games", "handleGetAllGames");
 $app->get("/games/{game_id}", "handleGetGameById");
 
 $app->post("/games", "handleCreateGames");
 $app->put("/games", "handleUpdateGames");
-$app->delete("/games/{game_id}", "handleDeleteGameById");
 $app->delete("/games", "handleDeleteGames");
+$app->delete("/games/{game_id}", "handleDeleteGameById");
 //-------------------------- REVIEW ------------------------------------
 $app->get("/reviews", "handleGetAllReviews");
 $app->get("/reviews/{review_id}", "handleGetReviewById");
 
 $app->post("/reviews", "handleCreateReviews");
 $app->put("/reviews", "handleUpdateReviews");
+$app->delete("/reviews", "handleDeleteReviews");
 $app->delete("/reviews/{review_id}", "handleDeleteReview");
+//------------------------- STREAMER -----------------------------------
+$app->get("/streamers", "handleGetAllStreamers");
+$app->get("/streamers/{streamer_id}", "handleGetStreamerById");
+
+$app->post("/streamers", "handleCreateStreamers");
+$app->put("/streamers", "handleUpdateStreamers");
+$app->delete("/streamers", "handleDeleteStreamers");
+$app->delete("/streamers/{streamer_id}", "handleDeleteStreamer");
 
 // Run the app.
 $app->run();
