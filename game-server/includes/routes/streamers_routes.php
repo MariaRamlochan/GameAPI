@@ -93,8 +93,10 @@ function handleCreateStreamers(Request $request, Response $response, array $args
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
+        
+        $streamer_model->createStreamers($new_streamer_record);
     }
-    $streamer_model->createStreamers($new_streamer_record);
+    
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
@@ -216,6 +218,7 @@ function handleDeleteStreamer(Request $request, Response $response, array $args)
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($streamer_info, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Streamer has been deleted", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
