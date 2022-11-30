@@ -122,10 +122,11 @@ function handleCreateGames(Request $request, Response $response, array $args) {
             $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
-        }
+        } 
     }
         
     $game_model->createGames($new_game_record);
+    
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
