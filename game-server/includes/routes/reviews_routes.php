@@ -147,34 +147,88 @@ function handleUpdateReviews(Request $request, Response $response, array $args)
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
+    $author_model = new AuthorModel();
+    $game_model = new GameModel();
 
-    for ($index = 0; $index < count($data); $index++) {
-        $single_review = $data[$index];
-        $reviewId = $single_review["review_id"];
-        $reviewText = $single_review["review_text"];
-        $rating = $single_review["rating"];
-        $gameId = $single_review["review_id"];
-        $author_id = $single_review["author_id"];
+    //Create Empty array to insert what we would like to update    
+    $existing_review = array();
 
+    foreach ($data as $key => $single_review) {
+
+        //-- Check data is set and retrieve the key and its value if it exists
+        if (isset($single_review["review_id"])) {
+            //check if it exists
+            if ($review_model->getReviewById($single_review["review_id"]) == null) {
+                $response_data = makeCustomJSONError("resourceNotFound", "no reviewID found");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            } else {
+
+                //Retreive the review Id for the specific review we want to update
+                $existing_reviewId = $single_review["review_id"];
+            }
+        }
+
+        if (isset($single_review["author_id"])) {
+            //check if it exists
+            if ($author_model->getAuthorById($single_review["author_id"]) == null) {
+                $response_data = makeCustomJSONError("resourceNotFound", "no authorID found");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            } else {
+
+                //Retreive the author Id for the specific game we want to update
+                $existing_review["author_id"] = $single_review["author_id"];
+            }
+        } else {
+            $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
+
+        if (isset($single_review["game_id"])) {
+            //check if it exists
+            if ($game_model->getGameById($single_review["game_id"]) == null) {
+                $response_data = makeCustomJSONError("resourceNotFound", "no gameID found");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            } else {
+
+                //Retreive the game Id for the specific game we want to update
+                $existing_review["game_id"] = $single_review["game_id"];
+            }
+        } else {
+            $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
         //-- We retrieve the key and its value
-        //-- We perform an UPDATE/CREATE SQL statement
+        if (isset($single_review["review_text"])) {
+            $existing_review["review_text"] = $single_review["review_text"];
+        }
+        if (isset($single_review["rating"])) {
+            $existing_review["rating"] = $single_review["rating"];
+        }
 
-        $existing_review_record = array(
-            "review_text" => $reviewText,
-            "rating" => $rating,
-            "game_id" => $gameId,
-            "author_id" => $author_id,
-        );
-
-        $review_model->updateReviews($existing_review_record, array("review_id" => $reviewId));
+        $review_model->updateReviews($existing_review, array("review_id" => $existing_reviewId));
     }
 
-    $html = var_export($data, true);
-    $response->getBody()->write($html);
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Review has been Updated", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
 
-function handleDeleteReview(Request $request, Response $response, array $args) {
+function handleDeleteReview(Request $request, Response $response, array $args)
+{
     $review_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -207,7 +261,8 @@ function handleDeleteReview(Request $request, Response $response, array $args) {
     return $response->withStatus($response_code);
 }
 
-function handleDeleteReviews(Request $request, Response $response, array $args) {
+function handleDeleteReviews(Request $request, Response $response, array $args)
+{
     $response_data = array();
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
@@ -215,12 +270,12 @@ function handleDeleteReviews(Request $request, Response $response, array $args) 
     $review_id = "";
 
     // Retreive the game from the request's URI.
-    foreach($data as $key => $single_review){
+    foreach ($data as $key => $single_review) {
         $review_id = $single_review["review_id"];
         if (isset($review_id)) {
 
             // Fetch the info about the specified game.
-            $review_model->deleteReviews(array("review_id"=>$review_id));
+            $review_model->deleteReviews(array("review_id" => $review_id));
             if (!$data) {
                 // No matches found?
                 $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");

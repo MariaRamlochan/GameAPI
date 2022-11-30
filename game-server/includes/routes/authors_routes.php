@@ -119,10 +119,11 @@ function handleUpdateAuthors(Request $request, Response $response, array $args) 
 
     foreach($data as $key => $single_author){
 
-        //-- Check data set and retrieve the key and its value
+        //-- Check data is set and retrieve the key and its value if it exists
         if(isset($single_author["author_id"])){
-            //Retreive the auhtor Id for the specific game we want to update
+            //Retreive the auhtor Id for the specific author we want to update
             $existing_authorId = $single_author["author_id"];
+            //check if it exists
             if($author_model->getAuthorById($existing_authorId) == null){
                 $response_data = makeCustomJSONError("resourceNotFound", "no authorID found");
                 $response->getBody()->write($response_data);
