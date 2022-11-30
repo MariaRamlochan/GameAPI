@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/GameModel.php';
 
+
 // Callback for HTTP GET /games
 //-- Supported filtering operation: by game title, genre, platform.
 function handleGetAllGames(Request $request, Response $response, array $args) {
@@ -278,4 +279,52 @@ function handleDeleteGames(Request $request, Response $response, array $args) {
     }
     $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
+}
+
+/**
+ * Test with the following URI: index.php?page=1&per_page=10
+ * Tests the logic of the Paginator class.
+ */
+function testPaginator() {
+    // Test with: http://localhost/GameAPI/game-server/games?page=21&per_page=15        
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+
+    // Set default values if one of the following was invalid.
+    $page_number = ($input_page_number > 0) ? $input_page_number : 1;
+    $per_page = ($input_per_page > 0) ? $input_per_page : 10;
+
+    // Should be the number of records returned by an SQL query
+    $total_no_of_records = 275;
+    $paginator = new Paginator($page_number, $per_page, $total_no_of_records);
+
+    echo "Paginator test results: <br>";
+    echo "<hr/>";
+    echo "Page number: " . $page_number . "<br>";
+    echo "Offset: " . $paginator->getOffset() . "<br>";
+    echo "Total number of pages: " . $paginator->getTotalPages() . "<br>";
+    echo "Total number of records: " . $paginator->getTotalRecords() . "<br>";
+    echo "<br> Pagination info: <br>";
+    print_r($paginator->getPaginationInfo());
+}
+
+/**
+ * Tests the pagination operations on the GameModel.
+ */
+function testGameModel() {
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+    // Instantiate the model.
+    $game_model = new GameModel();
+    // Set the pagination options.
+    $game_model->setPaginationOptions($input_page_number, $input_per_page);
+    // Tests for the methods exposed by the GameModel.
+    //-------
+    $games = $game_model->getAll();
+
+    // Test paginating a result set with filtering operation.
+    //$artists = $game_model->getWhereLike("A");
+    print_r(json_encode($games));
+    //$artists = $game_model->getArtistById(7);
+    //print_r(json_encode($artists));        
 }
