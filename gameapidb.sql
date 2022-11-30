@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2022 at 03:47 PM
+-- Generation Time: Nov 30, 2022 at 05:11 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -537,8 +537,7 @@ DROP TABLE IF EXISTS `streamer`;
 CREATE TABLE `streamer` (
   `streamer_id` int(11) NOT NULL,
   `streamer_url` text NOT NULL,
-  `streamer_name` varchar(50) NOT NULL,
-  `streamed_id` int(11) NOT NULL
+  `streamer_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
