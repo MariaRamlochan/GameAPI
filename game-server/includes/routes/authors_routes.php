@@ -180,6 +180,7 @@ function handleDeleteAuthor(Request $request, Response $response, array $args) {
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($author_info, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Author has been deleted", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;

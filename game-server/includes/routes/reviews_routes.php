@@ -153,7 +153,7 @@ function handleUpdateReviews(Request $request, Response $response, array $args)
         $reviewId = $single_review["review_id"];
         $reviewText = $single_review["review_text"];
         $rating = $single_review["rating"];
-        $gameId = $single_review["game_id"];
+        $gameId = $single_review["review_id"];
         $author_id = $single_review["author_id"];
 
         //-- We retrieve the key and its value
@@ -174,13 +174,11 @@ function handleUpdateReviews(Request $request, Response $response, array $args)
     return $response->withStatus($response_code);
 }
 
-function handleDeleteReviews(Request $request, Response $response, array $args)
-{
+function handleDeleteReview(Request $request, Response $response, array $args) {
     $review_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
-    $data = $request->getParsedBody();
 
     // Retreive the review from the request's URI.
     $review_id = $args["review_id"];
@@ -200,6 +198,44 @@ function handleDeleteReviews(Request $request, Response $response, array $args)
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
         $response_data = json_encode($review_info, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Review has been deleted", $response_data);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
+}
+
+function handleDeleteReviews(Request $request, Response $response, array $args) {
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $review_model = new ReviewModel();
+    $data = $request->getParsedBody();
+    $review_id = "";
+
+    // Retreive the game from the request's URI.
+    foreach($data as $key => $single_review){
+        $review_id = $single_review["review_id"];
+        if (isset($review_id)) {
+
+            // Fetch the info about the specified game.
+            $review_model->deleteReviews(array("review_id"=>$review_id));
+            if (!$data) {
+                // No matches found?
+                $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
+        }
+    }
+
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data = makeCustomJSONError("Success", "Reviews has been deleted", $response_data);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
