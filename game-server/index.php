@@ -27,7 +27,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->setBasePath("/GameAPI/game-server");
 
 $jwt_secret = JWTManager::getSecretKey();
-$api_base_path = "/music-api";
+$api_base_path = "/GameAPI/game-server";
 $app->add(new Tuupola\Middleware\JwtAuthentication([
             'secret' => $jwt_secret,
             'algorithm' => 'HS256',
