@@ -10,10 +10,15 @@ require_once __DIR__ . './../models/StreamerModel.php';
 // Callback for HTTP GET /streamers
 //-- Supported filtering operation: by streamer name.
 function handleGetAllStreamers(Request $request, Response $response, array $args) {
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+
     $streamers = array();
     $response_data = array();
     $response_code = HTTP_OK;
     $streamer_model = new StreamerModel();
+
+    $streamer_model->setPaginationOptions($input_page_number, $input_per_page);
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();

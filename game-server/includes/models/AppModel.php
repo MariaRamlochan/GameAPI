@@ -9,7 +9,7 @@ class AppModel extends BaseModel {
     function __construct() {
         // Call the parent class and initialize the database connection settings.
         parent::__construct();
-    }
+    } 
 
     /**
      * Retrieve all mobile games from the `app` table.

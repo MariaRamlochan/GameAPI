@@ -17,7 +17,7 @@ function handleGetAllApps(Request $request, Response $response, array $args) {
     $apps = array();
     $response_data = array();
     $response_code = HTTP_OK;
-    $app_model = new AppModel();
+    $app_model = new AppModel(); 
 
     $app_model->setPaginationOptions($input_page_number, $input_per_page);
 

@@ -19,7 +19,7 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
     $games = array();
     $response_data = array();
     $response_code = HTTP_OK;
-    $game_model = new GameModel();
+    $game_model = new GameModel(); 
 
     $game_model->setPaginationOptions($input_page_number, $input_per_page);
 

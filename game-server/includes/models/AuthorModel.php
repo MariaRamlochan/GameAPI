@@ -17,7 +17,8 @@ class AuthorModel extends BaseModel {
      */
     public function getAll() {
         $sql = "SELECT * FROM author";
-        $data = $this->rows($sql);
+        //$data = $this->rows($sql);
+        $data = $this->paginate($sql);
         return $data;
     }
 
@@ -28,7 +29,7 @@ class AuthorModel extends BaseModel {
      */
     public function getWhereLike($name) {
         $sql = "SELECT * FROM author WHERE name LIKE :name";
-        $data = $this->run($sql, [":name" => $name . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":name" => $name . "%"]);
         return $data;
     }
 
@@ -50,7 +51,7 @@ class AuthorModel extends BaseModel {
      */
     public function getAuthorsByGameId($game_id) {
         $sql = "SELECT * FROM author WHERE game_id = ?";
-        $data = $this->run($sql, [$game_id])->fetchAll();
+        $data = $this->paginate($sql, [$game_id]);
         return $data;
     }
 
@@ -61,7 +62,7 @@ class AuthorModel extends BaseModel {
      */
     public function getAuthorsByReviewId($review_id) {
         $sql = "SELECT * FROM author WHERE review_id = ?";
-        $data = $this->run($sql, [$review_id])->fetchAll();
+        $data = $this->paginate($sql, [$review_id]);
         return $data;
     }
 

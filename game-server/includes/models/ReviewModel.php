@@ -17,7 +17,8 @@ class ReviewModel extends BaseModel {
      */
     public function getAll() {
         $sql = "SELECT * FROM review";
-        $data = $this->rows($sql);
+        //$data = $this->rows($sql);
+        $data = $this->paginate($sql);
         return $data;
     }
 
@@ -28,7 +29,7 @@ class ReviewModel extends BaseModel {
      */
     public function getWhereLike($rating) {
         $sql = "SELECT * FROM review WHERE rating LIKE :rating";
-        $data = $this->run($sql, [":rating" => $rating . "%"])->fetchAll();
+        $data = $this->rupaginaten($sql, [":rating" => $rating . "%"]);
         return $data;
     }
 
@@ -50,7 +51,7 @@ class ReviewModel extends BaseModel {
      */
     public function getReviewsByAuthorID($author_id) {
         $sql = "SELECT * FROM review WHERE author_id = ?";
-        $data = $this->run($sql, [$author_id])->fetchAll();
+        $data = $this->paginate($sql, [$author_id]);
         return $data;
     }
 
@@ -61,7 +62,7 @@ class ReviewModel extends BaseModel {
      */
     public function getReviewsByGameID($game_id) {
         $sql = "SELECT * FROM review WHERE game_id = ?";
-        $data = $this->run($sql, [$game_id])->fetchAll();
+        $data = $this->paginate($sql, [$game_id]);
         return $data;
     }
 

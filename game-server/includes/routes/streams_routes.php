@@ -10,10 +10,15 @@ require_once __DIR__ . './../models/StreamModel.php';
 // Callback for HTTP GET /streams
 //-- Supported filtering operation: by stream title.
 function handleGetAllStreams(Request $request, Response $response, array $args) {
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+
     $streams = array();
     $response_data = array();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
+
+    $stream_model->setPaginationOptions($input_page_number, $input_per_page);
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();

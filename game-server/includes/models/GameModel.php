@@ -9,7 +9,7 @@ class GameModel extends BaseModel {
     function __construct() {
         // Call the parent class and initialize the database connection settings.
         parent::__construct();
-    }
+    } 
 
     /**
      * Retrieve all games from the `game` table.

@@ -17,7 +17,8 @@ class StreamerModel extends BaseModel {
      */
     public function getAll() {
         $sql = "SELECT * FROM streamer";
-        $data = $this->rows($sql);
+        //$data = $this->rows($sql);
+        $data = $this->paginate($sql);
         return $data;
     }
 
@@ -39,7 +40,7 @@ class StreamerModel extends BaseModel {
      */
     public function getStreamerByName($streamer_name) {
         $sql = "SELECT * FROM streamer WHERE streamer_name LIKE :streamer_name";
-        $data = $this->run($sql, [":streamer_name" => "%" . $streamer_name . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":streamer_name" => "%" . $streamer_name . "%"]);
         return $data;
     }
 
@@ -51,7 +52,7 @@ class StreamerModel extends BaseModel {
      */
     public function getStreamerByPlayedGames($streamed_id) {
         $sql = "SELECT * FROM streamer WHERE streamed_id LIKE :streamed_id";
-        $data = $this->run($sql, [":streamed_id" => $streamed_id . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":streamed_id" => $streamed_id . "%"]);
         return $data;
     }
 

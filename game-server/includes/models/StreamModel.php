@@ -17,7 +17,8 @@ class streamModel extends BaseModel {
      */
     public function getAll() {
         $sql = "SELECT * FROM stream";
-        $data = $this->rows($sql);
+        //$data = $this->rows($sql);
+        $data = $this->paginate($sql);
         return $data;
     }
 
@@ -39,7 +40,7 @@ class streamModel extends BaseModel {
      */
     public function getStreamByTitle($title) {
         $sql = "SELECT * FROM stream WHERE title LIKE :title";
-        $data = $this->run($sql, [":title" => "%" . $title . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":title" => "%" . $title . "%"]);
         return $data;
     }
 
@@ -50,7 +51,7 @@ class streamModel extends BaseModel {
      */
     public function getStreamedGameByGameId($game_id) {
         $sql = "SELECT * FROM streamer_game WHERE game_id LIKE :game_id";
-        $data = $this->run($sql, [":game_id" => "%" . $game_id . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":game_id" => "%" . $game_id . "%"]);
         return $data;
     }
 
@@ -62,7 +63,7 @@ class streamModel extends BaseModel {
      */
     public function getStreamedGamebyStreamerId($streamer_id) {
         $sql = "SELECT * FROM streamer_game WHERE streamer_id LIKE :streamer_id"; 
-        $data = $this->run($sql, [":streamer_id" => $streamer_id . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":streamer_id" => $streamer_id . "%"]);
         return $data;
     }
 
