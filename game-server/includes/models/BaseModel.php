@@ -275,4 +275,35 @@ class BaseModel {
         return $stmt->rowCount();
     }
 
+    public function setPaginationOptions(int $current_page, int $records_per_page): void {
+        $this->current_page = $current_page;
+        $this->records_per_page = $records_per_page;
+    }
+
+    /**
+     * Paginates a result set given a page number and number of records per page.
+     * 
+     * @param string $sql the SQL query to be executed.
+     * @param array $args fields filtering options.
+     * @param int $fetchMode 
+     * @return array An array containing the fetched set of records.
+     */
+    protected function paginate($sql, $args = [], $fetchMode = PDO::FETCH_ASSOC) {
+        // 1) Get the number of records that might be returned by the provided query.
+        $total_no_of_records = $this->count($sql, $args);
+        
+        // 2) Configure the paginator.
+        $paginator = new Paginator($this->current_page, $this->records_per_page, $total_no_of_records);
+        $offset = $paginator->getOffset();
+        
+        // 3) Add the LIMIT clause to the query.
+        $sql .= " LIMIT ${offset}, $this->records_per_page";
+        // 4) Get the pagination information.
+        $data = $paginator->getPaginationInfo();
+        // 5) Add the fetched data from the query with the pagination settings. 
+        // The result records are available via the data key in the JSON array. 
+        $data["data"] = $this->run($sql, $args)->fetchAll($fetchMode);
+        return $data;
+    }
+
 }
