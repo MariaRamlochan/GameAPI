@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2022 at 10:50 PM
+-- Generation Time: Dec 01, 2022 at 11:38 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -109,7 +109,7 @@ DROP TABLE IF EXISTS `author`;
 CREATE TABLE `author` (
   `author_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `num_reviews` int(11) NOT NULL
+  `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -524,7 +524,8 @@ CREATE TABLE `review` (
   `review_text` text NOT NULL,
   `rating` double NOT NULL,
   `game_id` int(11) NOT NULL,
-  `author_id` int(11) NOT NULL
+  `author_id` int(11) NOT NULL,
+  `review_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
