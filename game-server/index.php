@@ -71,6 +71,14 @@ $app->post("/streamers", "handleCreateStreamers");
 $app->put("/streamers", "handleUpdateStreamers");
 $app->delete("/streamers", "handleDeleteStreamers");
 $app->delete("/streamers/{streamer_id}", "handleDeleteStreamer");
+//-------------------------- STREAM ------------------------------------
+$app->get("/streams", "handleGetAllStreams");
+$app->get("/streams/{stream_id}", "handleGetStreamById");
+
+$app->post("/streams", "handleCreateStreams");
+$app->put("/streams", "handleUpdateStreams");
+$app->delete("/streams", "handleDeleteStreams");
+$app->delete("/streams/{stream_id}", "handleDeleteStream");
 
 // Run the app.
 $app->run();

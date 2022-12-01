@@ -1,10 +1,10 @@
 <?php
 
-class streamedModel extends BaseModel {
+class streamModel extends BaseModel {
 
     /**
-     * A model class for the `streamed` database table.
-     * It exposes operations that can be performed on games records.
+     * A model class for the `stream` database table.
+     * It exposes operations that can be performed on stream records.
      */
     function __construct() {
         // Call the parent class and initialize the database connection settings.
@@ -12,23 +12,34 @@ class streamedModel extends BaseModel {
     }
 
     /**
-     * Retrieve all mobile games from the `streamed` table.
-     * @return array A list of twitch streameds. 
+     * Retrieve all mobile games from the `stream` table.
+     * @return array A list of twitch streams. 
      */
     public function getAll() {
-        $sql = "SELECT * FROM streamer_game";
+        $sql = "SELECT * FROM stream";
         $data = $this->rows($sql);
         return $data;
     }
 
     /**
-     * Retrieve a streamed by its id.
-     * @param int $streamed_id the id of the streamed.
-     * @return array an array containing information about a given streamed.
+     * Retrieve a stream by its id.
+     * @param int $stream_id the id of the stream.
+     * @return array an array containing information about a given stream.
      */
-    public function getStreamedGameById($streamed_id) {
-        $sql = "SELECT * FROM streamer_game WHERE streamed_id = ?";
-        $data = $this->run($sql, [$streamed_id])->fetch();
+    public function getStreamById($stream_id) {
+        $sql = "SELECT * FROM stream WHERE stream_id = ?";
+        $data = $this->run($sql, [$stream_id])->fetch();
+        return $data;
+    }
+
+    /**
+     * Get a list of Streams whose title matches or contains the provided value.       
+     * @param string $title 
+     * @return array An array containing the matches found.
+     */
+    public function getStreamByTitle($title) {
+        $sql = "SELECT * FROM stream WHERE title LIKE :title";
+        $data = $this->run($sql, [":title" => "%" . $title . "%"])->fetchAll();
         return $data;
     }
 
@@ -58,7 +69,7 @@ class streamedModel extends BaseModel {
     /**
      * Create a list of streamed game
      */
-    public function createStreamed($data) {
+    public function createStreams($data) {
         $data = $this->insert("streamer_game", $data);
         return $data;
     }
@@ -66,7 +77,7 @@ class streamedModel extends BaseModel {
     /**
      * Update a list of streamed game
      */
-    public function updateStreamed($data, $where) {
+    public function updateStreams($data, $where) {
         $data = $this->update("streamer_game", $data, $where);
         return $data;
     }
@@ -74,7 +85,7 @@ class streamedModel extends BaseModel {
     /**
      * Delete a list of streamed game
      */
-    public function deleteStreamed($where) {
+    public function deleteStreams($where) {
         $data = $this->delete("streamer_game", $where);
         return $data;
     }
