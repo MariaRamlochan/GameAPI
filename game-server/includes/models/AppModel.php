@@ -17,7 +17,8 @@ class AppModel extends BaseModel {
      */
     public function getAll() {
         $sql = "SELECT * FROM app";
-        $data = $this->rows($sql);
+        //$data = $this->rows($sql);
+        $data = $this->paginate($sql);
         return $data;
     }
 
@@ -28,7 +29,7 @@ class AppModel extends BaseModel {
      */
     public function getAppGameByName($app_name) {
         $sql = "SELECT * FROM app WHERE app_name LIKE :app_name";
-        $data = $this->run($sql, [":app_name" => "%" . $app_name . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":app_name" => "%" . $app_name . "%"]);
         return $data;
     }
 
@@ -39,7 +40,7 @@ class AppModel extends BaseModel {
      */
     public function getAppGamesByCategory($app_category) {
         $sql = "SELECT * FROM app WHERE app_category LIKE :app_category";
-        $data = $this->run($sql, [":app_category" => $app_category . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":app_category" => $app_category . "%"]);
         return $data;
     }
 
@@ -50,7 +51,7 @@ class AppModel extends BaseModel {
      */
     public function getAppGamesByNumberOfDownloads($num_downloads) {
         $sql = "SELECT * FROM app WHERE num_downloads LIKE :num_downloads";
-        $data = $this->run($sql, [":num_downloads" => $num_downloads . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":num_downloads" => $num_downloads . "%"]);
         return $data;
     }
 
@@ -61,7 +62,7 @@ class AppModel extends BaseModel {
      */
     public function getAppGamesByDeveloper($app_developer) {
         $sql = "SELECT * FROM app WHERE app_developer LIKE :app_developer";
-        $data = $this->run($sql, [":app_developer" => "%" . $app_developer . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":app_developer" => "%" . $app_developer . "%"]);
         return $data;
     }
 

@@ -29,7 +29,7 @@ class GameModel extends BaseModel {
      */
     public function getGameByTitle($title) {
         $sql = "SELECT * FROM game WHERE title LIKE :title";
-        $data = $this->run($sql, [":title" => "%" . $title . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":title" => "%" . $title . "%"]);
         return $data;
     }
 
@@ -40,7 +40,7 @@ class GameModel extends BaseModel {
      */
     public function getGamesByGenre($genre) {
         $sql = "SELECT * FROM game WHERE genre LIKE :genre";
-        $data = $this->run($sql, [":genre" => $genre . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":genre" => $genre . "%"]);
         return $data;
     }
 
@@ -51,7 +51,7 @@ class GameModel extends BaseModel {
      */
     public function getGamesByPlatform($platform) {
         $sql = "SELECT * FROM game WHERE platform LIKE :platform";
-        $data = $this->run($sql, [":platform" => "%" . $platform . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":platform" => "%" . $platform . "%"]);
         return $data;
     }
 
@@ -62,7 +62,7 @@ class GameModel extends BaseModel {
      */
     public function getGamesByPublisher($publisher) {
         $sql = "SELECT * FROM game WHERE publisher LIKE :publisher";
-        $data = $this->run($sql, [":publisher" => "%" . $publisher . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":publisher" => "%" . $publisher . "%"]);
         return $data;
     }
 
@@ -73,7 +73,7 @@ class GameModel extends BaseModel {
      */
     public function getGamesByDeveloper($developer) {
         $sql = "SELECT * FROM game WHERE developer LIKE :developer";
-        $data = $this->run($sql, [":developer" => "%" . $developer . "%"])->fetchAll();
+        $data = $this->paginate($sql, [":developer" => "%" . $developer . "%"]);
         return $data;
     }
 

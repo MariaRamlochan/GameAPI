@@ -13,13 +13,15 @@ require_once __DIR__ . './../helpers/WebServiceInvoker.php';
 // Callback for HTTP GET /games
 //-- Supported filtering operation: by game title, genre, platform.
 function handleGetAllGames(Request $request, Response $response, array $args) {
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+    
     $games = array();
     $response_data = array();
     $response_code = HTTP_OK;
     $game_model = new GameModel();
 
-    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
-    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+    $game_model->setPaginationOptions($input_page_number, $input_per_page);
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
@@ -40,9 +42,6 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
         $games = $game_model->getGamesByDeveloper($filter_params["developer"]);
     } else {
         // No filtering by game title detected.
-        
-
-        $game_model->setPaginationOptions($input_page_number, $input_per_page);
         $games = $game_model->getAll();
         //print_r(json_encode($games));
 
