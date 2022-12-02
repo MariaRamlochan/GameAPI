@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2022 at 11:38 PM
+-- Generation Time: Dec 02, 2022 at 03:17 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -111,6 +111,22 @@ CREATE TABLE `author` (
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `author`
+--
+
+INSERT INTO `author` (`author_id`, `name`, `email`) VALUES
+(5, 'Maria ', 'mariaRamlochan@vanier.edu'),
+(6, 'Nafees', 'nafeesSyed@vanier.edu'),
+(7, 'Berry', 'berryBear@vanier.edu'),
+(8, 'joe', 'Joe1@vanier.edu'),
+(9, 'Bear', 'BearBerry@vanier.edu'),
+(10, 'Shrek', 'shrekIsLife@vanier.edu'),
+(11, 'Shrek2', 'shrekIsLove@vanier.edu'),
+(12, 'Jonathan', 'JonathanJoestar@vanier.edu'),
+(13, 'Jotaro', 'JotaroKujo@vanier.edu'),
+(14, 'Jin', 'JinWoo@vanier.edu');
 
 -- --------------------------------------------------------
 
@@ -528,6 +544,48 @@ CREATE TABLE `review` (
   `review_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`review_id`, `review_text`, `rating`, `game_id`, `author_id`, `review_date`) VALUES
+(1, ' This review is for Overwatch 2. The first game of the title has been a worldwide hit since the moment that it has been released. The characters were fun to play with as well as having a compelling design. Unfortunately, this new release of the franchise has not been as well received as its predecessor. The reason for that, in my opinion, is mainly due to the fact that the franchise is pushing toward microtransaction.', 5.8, 1, 5, '2022-12-02 01:03:12'),
+(2, 'Tower of fantasy is a game well known as a Gacha game. the game is a free-to-play anime-type game that contains microtransactions and a pull system in which players can pull for different characters. The game is also an open-world game where the player is able to travel in. The game came after the worldwide phenomenon called Genshin Impact and is played similarly to it. because the game has been released after Genshin impact, it wasn\'t as popular. despite the rocky start, Tower of fantasy is a solid game in which players would be able to spend hours on it while still feel like they are playing a fresh game.', 7.5, 25, 6, '2022-12-02 01:20:21'),
+(3, 'World of Warships is a battle strategy game where players fight each other until the last boat survives. the game has been heavily advertised by YouTubers and twitch streamers alike. while it lacks in gameplay it makes up content.', 6.9, 22, 8, '2022-12-02 01:20:21'),
+(4, 'RuneScape was a very old game that, to this day, has a very dedicated and loyal fanbase.', 9, 45, 7, '2022-12-02 01:46:34'),
+(5, 'PUBG is a battle royal shooter type of game that has created a large wave in the battle royal genre. Right now it has lost a lot of steam with the arrival of other battle royal titles but is still being kept alive thanks to the loyal players.', 7.4, 4, 9, '2022-12-02 01:46:34'),
+(6, 'Genshin Impact is a game that has created a huge ripple in the gacha game world by making the game not only 3D but also open-world.', 9.9, 9, 10, '2022-12-02 01:46:34'),
+(7, 'Brawlhala is a multiplayer 2D fighting game. it is a pretty popular game for the fighting game type. the game is an entry-level fighting game for people who wants to first start into a fighting-type game.', 6.5, 36, 11, '2022-12-02 01:46:34'),
+(8, 'Smite is a point-and-click strategy game that closely resembles games like dota2 and the worldwide sensation that is League of Legends. despite the game being played similarly, it makes up for it by having a more specific theme which is \"gods\". having that theme sets them apart from the other game.', 5.9, 40, 12, '2022-12-02 01:46:34'),
+(9, 'League of legends is a world wide phenomenon that doesn\'t need further explanations. it is maybe the free game that has revolutionized the gaming industry with it\'s extensive support from player around the globe.', 9, 312, 13, '2022-12-02 01:46:34'),
+(10, 'MapleStory is an early MMORPG that has charmed the world with its cute design and dramatic yet adorable world. ', 10, 355, 14, '2022-12-02 01:46:34'),
+(11, 'Tibia was a popular MMORPG game back in the early days of online video games.', 7, 371, 5, '2022-12-02 01:48:02'),
+(12, 'Skyforge is a game which I have never heard about and also don\'t even know how it looks. the only reason why I am mentioning it is because I needed more entries in the table.', 0.5, 207, 7, '2022-12-02 01:50:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stream`
+--
+
+DROP TABLE IF EXISTS `stream`;
+CREATE TABLE `stream` (
+  `stream_id` int(11) NOT NULL,
+  `streamer_id` int(11) NOT NULL,
+  `game_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `stream`
+--
+
+INSERT INTO `stream` (`stream_id`, `streamer_id`, `game_id`) VALUES
+(1, 1, 32),
+(2, 2, 1),
+(3, 4, 328),
+(4, 1, 3),
+(5, 3, 355);
+
 -- --------------------------------------------------------
 
 --
@@ -541,18 +599,16 @@ CREATE TABLE `streamer` (
   `streamer_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `streamer_games`
+-- Dumping data for table `streamer`
 --
 
-DROP TABLE IF EXISTS `streamer_games`;
-CREATE TABLE `streamer_games` (
-  `streamed_id` int(11) NOT NULL,
-  `streamer_id` int(11) NOT NULL,
-  `game_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `streamer` (`streamer_id`, `streamer_url`, `streamer_name`) VALUES
+(1, 'https://www.twitch.tv/nyanners', 'Nyanners'),
+(2, 'https://www.twitch.tv/xqc', 'xQc'),
+(3, 'https://www.twitch.tv/sykkuno', 'sykkuno'),
+(4, 'https://www.twitch.tv/pokimane', 'Pokimane'),
+(5, 'https://www.twitch.tv/asmongold', 'Asmongold');
 
 -- --------------------------------------------------------
 
@@ -616,18 +672,30 @@ ALTER TABLE `review`
   ADD KEY `Fk_authorIdToAuthor` (`author_id`);
 
 --
+-- Indexes for table `stream`
+--
+ALTER TABLE `stream`
+  ADD PRIMARY KEY (`stream_id`),
+  ADD KEY `stream_to_streamer_id` (`streamer_id`),
+  ADD KEY `stream_to_game_id` (`game_id`);
+
+--
 -- Indexes for table `streamer`
 --
 ALTER TABLE `streamer`
   ADD PRIMARY KEY (`streamer_id`);
 
 --
--- Indexes for table `streamer_games`
+-- Indexes for table `ws_log`
 --
-ALTER TABLE `streamer_games`
-  ADD PRIMARY KEY (`streamed_id`),
-  ADD KEY `streamed_game_id` (`game_id`),
-  ADD KEY `streamed_streamer_id` (`streamer_id`);
+ALTER TABLE `ws_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ws_users`
+--
+ALTER TABLE `ws_users`
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -643,7 +711,7 @@ ALTER TABLE `app`
 -- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
-  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `game`
@@ -655,19 +723,31 @@ ALTER TABLE `game`
 -- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `stream`
+--
+ALTER TABLE `stream`
+  MODIFY `stream_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `streamer`
 --
 ALTER TABLE `streamer`
-  MODIFY `streamer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `streamer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `streamer_games`
+-- AUTO_INCREMENT for table `ws_log`
 --
-ALTER TABLE `streamer_games`
-  MODIFY `streamed_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `ws_log`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ws_users`
+--
+ALTER TABLE `ws_users`
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -681,11 +761,11 @@ ALTER TABLE `review`
   ADD CONSTRAINT `Fk_reviewToGame` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `streamer_games`
+-- Constraints for table `stream`
 --
-ALTER TABLE `streamer_games`
-  ADD CONSTRAINT `streamed_game_id` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `streamed_streamer_id` FOREIGN KEY (`streamer_id`) REFERENCES `streamer` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `stream`
+  ADD CONSTRAINT `stream_to_game_id` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
+  ADD CONSTRAINT `stream_to_streamer_id` FOREIGN KEY (`streamer_id`) REFERENCES `streamer` (`streamer_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
