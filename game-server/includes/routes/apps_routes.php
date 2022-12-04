@@ -23,9 +23,9 @@ function handleGetAllApps(Request $request, Response $response, array $args) {
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
-    if (isset($filter_params["name"])) {
-        // Fetch the list of apps matching the provided name.
-        $apps = $app_model->getAppGameByName($filter_params["name"]);
+    if (isset($filter_params["title"])) {
+        // Fetch the list of apps matching the provided title.
+        $apps = $app_model->getAppGameByName($filter_params["title"]);
     } else if (isset($filter_params["category"])) {
         // Fetch the list of apps matching the provided category.
         $apps = $app_model->getAppGamesByCategory($filter_params["category"]);
@@ -36,7 +36,7 @@ function handleGetAllApps(Request $request, Response $response, array $args) {
         // Fetch the list of apps matching the provided developer.
         $apps = $app_model->getAppGamesByDeveloper($filter_params["developer"]);
     } else {
-        // No filtering by app name detected.
+        // No filtering by app title detected.
         $apps = $app_model->getAll();
     }    
     // Handle serve-side content negotiation and produce the requested representation.    
