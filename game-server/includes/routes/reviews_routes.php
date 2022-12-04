@@ -61,11 +61,126 @@ function handleGetReviewById(Request $request, Response $response, array $args)
         $review_info = $review_model->getReviewById($review_id);
         if (!$review_info) {
             // No matches found?
-            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified game.");
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
     }
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($review_info, JSON_INVALID_UTF8_SUBSTITUTE);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
+}
+
+function handleGetReviewsByAuthorId(Request $request, Response $response, array $args)
+{
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+
+    $review_info = array();
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $review_model = new ReviewModel();
+
+    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+
+    // Retreive the review if from the request's URI.
+    $author_id = $args["author_id"];
+    if (isset($author_id)) {
+        // Fetch the info about the specified review.
+        $review_info = $review_model->getReviewsByAuthorID($author_id);
+        if (!$review_info) {
+            // No matches found?
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
+    }
+
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($review_info, JSON_INVALID_UTF8_SUBSTITUTE);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
+}
+
+function handleGetReviewsByGameIdAndAuthorId(Request $request, Response $response, array $args)
+{
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+
+    $review_info = array();
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $review_model = new ReviewModel();
+
+    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+
+    // Retreive the review if from the request's URI.
+    $game_id = $args["game_id"];
+    $author_id = $args["author_id"];
+    if (isset($game_id, $author_id)) {
+        // Fetch the info about the specified review.
+        $review_info = $review_model->getReviewsByGameIdAndAuthorId($game_id, $author_id);
+        if (!$review_info) {
+            // No matches found?
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
+    }
+
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($review_info, JSON_INVALID_UTF8_SUBSTITUTE);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
+}
+
+function handleGetReviewsByGameId(Request $request, Response $response, array $args)
+{
+    $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
+
+    $review_info = array();
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $review_model = new ReviewModel();
+
+    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+
+    // Retreive the review if from the request's URI.
+    $game_id = $args["game_id"];
+    if (isset($game_id)) {
+        // Fetch the info about the specified review.
+        $review_info = $review_model->getReviewsByGameID($game_id);
+        if (!$review_info) {
+            // No matches found?
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
+    }
+    
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    

@@ -29,7 +29,7 @@ class ReviewModel extends BaseModel {
      */
     public function getWhereLike($rating) {
         $sql = "SELECT * FROM review WHERE rating LIKE :rating";
-        $data = $this->rupaginaten($sql, [":rating" => $rating . "%"]);
+        $data = $this->paginate($sql, [":rating" => $rating . "%"]);
         return $data;
     }
 
@@ -63,6 +63,17 @@ class ReviewModel extends BaseModel {
     public function getReviewsByGameID($game_id) {
         $sql = "SELECT * FROM review WHERE game_id = ?";
         $data = $this->paginate($sql, [$game_id]);
+        return $data;
+    }
+
+     /**
+     * Retrieve a list of reviews from a given game.
+     * @param int $game_id the id of the game.
+     * @return array a list of reviews.
+     */
+    public function getReviewsByGameIdAndAuthorId($game_id, $author_id) {
+        $sql = "SELECT * FROM review WHERE game_id = ? AND author_id = ?";
+        $data = $this->paginate($sql, [$game_id, $author_id]);
         return $data;
     }
 

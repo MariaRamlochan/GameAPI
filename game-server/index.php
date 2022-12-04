@@ -86,6 +86,9 @@ $app->delete("/games/{game_id}", "handleDeleteGameById");
 //-------------------------- REVIEW ------------------------------------
 $app->get("/reviews", "handleGetAllReviews");
 $app->get("/reviews/{review_id}", "handleGetReviewById");
+$app->get("/authors/{author_id}/reviews", "handleGetReviewsByAuthorId");
+$app->get("/games/{game_id}/reviews", "handleGetReviewsByGameId");
+$app->get("/games/{game_id}/authors/{author_id}/reviews", "handleGetReviewsByGameIdAndAuthorId");
 
 $app->post("/reviews", "handleCreateReviews");
 $app->put("/reviews", "handleUpdateReviews");
