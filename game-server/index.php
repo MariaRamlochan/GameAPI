@@ -52,6 +52,7 @@ require_once './includes/routes/authors_routes.php';
 require_once './includes/routes/games_routes.php';
 require_once './includes/routes/reviews_routes.php';
 require_once './includes/routes/streamers_routes.php';
+require_once './includes/routes/streams_routes.php';
 
 //-- Step 6)
 // TODO: And here we define app routes.

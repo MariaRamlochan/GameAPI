@@ -74,7 +74,7 @@ function handleGetStreamById(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleCreateStreamers(Request $request, Response $response, array $args) {
+function handleCreateStreams(Request $request, Response $response, array $args) {
     $response_data = array();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
@@ -119,7 +119,7 @@ function handleCreateStreamers(Request $request, Response $response, array $args
     return $response->withStatus($response_code);
 }
 
-function handleUpdateStreamers(Request $request, Response $response, array $args) {
+function handleUpdateStreams(Request $request, Response $response, array $args) {
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel(); 
@@ -168,7 +168,7 @@ function handleUpdateStreamers(Request $request, Response $response, array $args
     return $response->withStatus($response_code);
 }
 
-function handleDeleteStreamers(Request $request, Response $response, array $args) {
+function handleDeleteStreams(Request $request, Response $response, array $args) {
     $response_data = array();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
@@ -205,7 +205,7 @@ function handleDeleteStreamers(Request $request, Response $response, array $args
     return $response->withStatus($response_code);
 }
 
-function handleDeleteStreamer(Request $request, Response $response, array $args) {
+function handleDeleteStream(Request $request, Response $response, array $args) {
     $stream_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
