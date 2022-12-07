@@ -22,7 +22,11 @@ function handleGetAllReviews(Request $request, Response $response, array $args)
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    if (isset($input_page_number) && isset($input_per_page)){
+        $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $review_model->setPaginationOptions(1, 1000);
+    }
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
@@ -89,7 +93,11 @@ function handleGetReviewsByAuthorId(Request $request, Response $response, array 
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    if (isset($input_page_number) && isset($input_per_page)){
+        $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $review_model->setPaginationOptions(1, 1000);
+    }
 
     // Retreive the review if from the request's URI.
     $author_id = $args["author_id"];
@@ -127,7 +135,11 @@ function handleGetReviewsByGameIdAndAuthorId(Request $request, Response $respons
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    if (isset($input_page_number) && isset($input_per_page)){
+        $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $review_model->setPaginationOptions(1, 1000);
+    }
 
     // Retreive the review if from the request's URI.
     $game_id = $args["game_id"];
@@ -166,7 +178,11 @@ function handleGetReviewsByGameId(Request $request, Response $response, array $a
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    if (isset($input_page_number) && isset($input_per_page)){
+        $review_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $review_model->setPaginationOptions(1, 1000);
+    }
 
     // Retreive the review if from the request's URI.
     $game_id = $args["game_id"];

@@ -19,17 +19,16 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
     $games = array();
     $response_data = array();
     $response_code = HTTP_OK;
-    $game_model = new GameModel(); 
+    $game_model = new GameModel();
 
-    // Retreive the query string parameter from the request's URI.
-    $filter_params = $request->getQueryParams();
-
-    if (isset($filter_params["page"]) && isset($filter_params["per_page"])){
+    if (isset($input_page_number) && isset($input_per_page)){
         $game_model->setPaginationOptions($input_page_number, $input_per_page);
     } else {
         $game_model->setPaginationOptions(1, 1000);
     }
 
+    // Retreive the query string parameter from the request's URI.
+    $filter_params = $request->getQueryParams();
     if (isset($filter_params["title"])) {
         // Fetch the list of games matching the provided title.
         $games = $game_model->getGameByTitle($filter_params["title"]);

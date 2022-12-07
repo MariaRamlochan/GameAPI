@@ -18,7 +18,11 @@ function handleGetAllStreamers(Request $request, Response $response, array $args
     $response_code = HTTP_OK;
     $streamer_model = new StreamerModel();
 
-    $streamer_model->setPaginationOptions($input_page_number, $input_per_page);
+    if (isset($input_page_number) && isset($input_per_page)){
+        $streamer_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $streamer_model->setPaginationOptions(1, 1000);
+    }
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
