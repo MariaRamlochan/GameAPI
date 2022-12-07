@@ -8,6 +8,7 @@ require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/GameModel.php';
 require_once __DIR__ . './../helpers/Paginator.php';
 require_once __DIR__ . './../helpers/WebServiceInvoker.php';
+require_once __DIR__ . './../controllers/EsportsController.php';
 
 
 // Callback for HTTP GET /games
@@ -20,6 +21,7 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
     $response_data = array();
     $response_code = HTTP_OK;
     $game_model = new GameModel();
+    $esports = new EsportsController();
 
     if (isset($input_page_number) && isset($input_per_page)){
         $game_model->setPaginationOptions($input_page_number, $input_per_page);
@@ -55,10 +57,11 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
     //--
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
-        // $response_data['games'] = $games;
-        // $response_data['comments'] = getComments();
-        //$response_data = json_encode($response_data, JSON_INVALID_UTF8_SUBSTITUTE);
-        $response_data = json_encode($games, JSON_INVALID_UTF8_SUBSTITUTE);
+        $response_data['games'] = $games;
+       // $esport = 
+        $response_data['esports'] = $esports->getEsportsInfo();
+        $response_data = json_encode($response_data, JSON_INVALID_UTF8_SUBSTITUTE);
+        //$response_data = json_encode($games, JSON_INVALID_UTF8_SUBSTITUTE);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
         $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;

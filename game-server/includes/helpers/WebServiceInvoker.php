@@ -1,5 +1,4 @@
 <?php
-
 class WebServiceInvoker {
 
     private $request_options;
