@@ -18,7 +18,11 @@ function handleGetAllStreams(Request $request, Response $response, array $args) 
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
 
-    $stream_model->setPaginationOptions($input_page_number, $input_per_page);
+    if (isset($input_page_number) && isset($input_per_page)){
+        $stream_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $stream_model->setPaginationOptions(1, 1000);
+    }
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
@@ -83,17 +87,17 @@ function handleCreateStreams(Request $request, Response $response, array $args) 
 
     foreach($data as $key => $single_stream){
     // Fetch the info about the specified stream.
-        if(isset($single_stream["stream_title"]) && isset($single_stream["streamer_id"]) 
+        if(isset($single_stream["title"]) && isset($single_stream["streamer_id"]) 
         && isset($single_stream["game_id"])){
 
-            $title = $single_stream["stream_title"];
+            $title = $single_stream["title"];
             $streamerId = $single_stream["streamer_id"];
             $gameId = $single_stream["game_id"];
             
             $new_stream_record = array(
-                "stream_title"=>$title,
                 "streamer_id"=>$streamerId,
                 "game_id"=>$gameId,
+                "title"=>$title
             );
 
         }else{
@@ -141,8 +145,8 @@ function handleUpdateStreams(Request $request, Response $response, array $args) 
         }
 
         //-- We retrieve the key and its value
-        if(isset($single_stream["stream_title"])){
-            $existing_stream["stream_title"] = $single_stream["stream_title"];
+        if(isset($single_stream["title"])){
+            $existing_stream["title"] = $single_stream["title"];
         }
         if(isset($single_stream["streamer_id"])){
             $existing_stream["streamer_id"] = $single_stream["streamer_id"];
