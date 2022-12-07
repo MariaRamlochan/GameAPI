@@ -50,7 +50,7 @@ class streamModel extends BaseModel {
      * @return array An array containing the matches found.
      */
     public function getStreamedGameByGameId($game_id) {
-        $sql = "SELECT * FROM streamer_game WHERE game_id LIKE :game_id";
+        $sql = "SELECT * FROM stream WHERE game_id LIKE :game_id";
         $data = $this->paginate($sql, [":game_id" => "%" . $game_id . "%"]);
         return $data;
     }
@@ -62,7 +62,7 @@ class streamModel extends BaseModel {
      * @return array An array containing the matches found.
      */
     public function getStreamedGamebyStreamerId($streamer_id) {
-        $sql = "SELECT * FROM streamer_game WHERE streamer_id LIKE :streamer_id"; 
+        $sql = "SELECT * FROM stream WHERE streamer_id LIKE :streamer_id"; 
         $data = $this->paginate($sql, [":streamer_id" => $streamer_id . "%"]);
         return $data;
     }
@@ -71,7 +71,7 @@ class streamModel extends BaseModel {
      * Create a list of streamed game
      */
     public function createStreams($data) {
-        $data = $this->insert("streamer_game", $data);
+        $data = $this->insert("stream", $data);
         return $data;
     }
 
@@ -79,7 +79,7 @@ class streamModel extends BaseModel {
      * Update a list of streamed game
      */
     public function updateStreams($data, $where) {
-        $data = $this->update("streamer_game", $data, $where);
+        $data = $this->update("stream", $data, $where);
         return $data;
     }
 
@@ -87,7 +87,7 @@ class streamModel extends BaseModel {
      * Delete a list of streamed game
      */
     public function deleteStreams($where) {
-        $data = $this->delete("streamer_game", $where);
+        $data = $this->delete("stream", $where);
         return $data;
     }
 }
