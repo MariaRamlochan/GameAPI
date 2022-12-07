@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 
 require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/StreamModel.php';
+require_once __DIR__ . './../models/StreamerModel.php';
+require_once __DIR__ . './../models/GameModel.php';
 
 // Callback for HTTP GET /streams
 //-- Supported filtering operation: by stream title.
@@ -82,6 +84,8 @@ function handleCreateStreams(Request $request, Response $response, array $args) 
     $response_data = array();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
+    $streamer_model = new StreamerModel();
+    $game_model = new GameModel();
     $data = $request->getParsedBody();
 
 
@@ -94,11 +98,28 @@ function handleCreateStreams(Request $request, Response $response, array $args) 
             $streamerId = $single_stream["streamer_id"];
             $gameId = $single_stream["game_id"];
             
-            $new_stream_record = array(
-                "streamer_id"=>$streamerId,
-                "game_id"=>$gameId,
-                "title"=>$title
-            );
+
+            if($game_model->getGameById($gameId)){
+                if($streamer_model->getStreamerById($streamerId)){
+
+                    $new_stream_record = array(
+                        "streamer_id"=>$streamerId,
+                        "game_id"=>$gameId,
+                        "title"=>$title
+                    );
+
+                }else {
+                    $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid streamer id.");
+                    $response->getBody()->write($response_data);
+                    return $response->withStatus(HTTP_NOT_FOUND);
+                }
+            }else{
+                $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid game id.");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
+
+            
 
         }else{
             $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
@@ -127,6 +148,8 @@ function handleUpdateStreams(Request $request, Response $response, array $args) 
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel(); 
+    $streamer_model = new StreamerModel();
+    $game_model = new GameModel();
 
      //Create Empty array to insert what we would like to update    
      $existing_stream = array();
@@ -144,15 +167,32 @@ function handleUpdateStreams(Request $request, Response $response, array $args) 
             }
         }
 
+        $streamerId = $single_stream["streamer_id"];
+        $gameId = $single_stream["game_id"];
+
         //-- We retrieve the key and its value
         if(isset($single_stream["title"])){
             $existing_stream["title"] = $single_stream["title"];
         }
-        if(isset($single_stream["streamer_id"])){
-            $existing_stream["streamer_id"] = $single_stream["streamer_id"];
+
+        if(isset($streamerId)){
+            if($streamer_model->getStreamerById($streamerId)){
+                $existing_stream["streamer_id"] = $single_stream["streamer_id"];
+            }else{
+                $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid streamer id.");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
         }
-        if(isset($single_stream["game_id"])){
-            $existing_stream["game_id"] = $single_stream["game_id"];
+
+        if(isset($gameId)){
+            if($game_model->getGameById($gameId)){
+                $existing_stream["game_id"] = $single_stream["game_id"];
+            }else{
+                $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid game id.");
+                $response->getBody()->write($response_data);
+                return $response->withStatus(HTTP_NOT_FOUND);
+            }
         }
         //-- We perform an UPDATE SQL statement
         $stream_model->updateStreams($existing_stream, array("stream_id" => $existing_stream_id));
