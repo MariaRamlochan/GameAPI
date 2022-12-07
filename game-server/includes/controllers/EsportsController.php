@@ -7,13 +7,15 @@ use GuzzleHttp\Client;
  *
  * @author Maria, Nafees
  */
-class EsportsController extends WebServiceInvoker {
+class EsportsController extends WebServiceInvoker
+{
 
-    private $request_options = Array(
-        'headers' => Array('Accept' => 'application/json')
+    private $request_options = array(
+        'headers' => array('Accept' => 'application/json')
     );
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct($this->request_options);
     }
 
@@ -22,8 +24,9 @@ class EsportsController extends WebServiceInvoker {
      * 
      * @return array containing some information about esports. 
      */
-    function getEsportsInfo() {
-        $esports = Array();
+    function getEsportsInfo()
+    {
+        $esports = array();
         $resource_uri = "https://api.opendota.com/api/teams";
         $esportsData = $this->invoke($resource_uri);
 
@@ -36,10 +39,10 @@ class EsportsController extends WebServiceInvoker {
             // Parse the list of books and retreive some  
             // of the contained information.
             foreach ($esportsData as $key => $esport) {
+                $esports[$index]["name"] = $esport["name"];
                 $esports[$index]["rating"] = $esport["rating"];
                 $esports[$index]["wins"] = $esport["wins"];
-                // $esports[$index]["authors"] = $esport["authors"];
-                // $esports[$index]["mediaType"] = $esport["mediaType"];
+                $esports[$index]["losses"] = $esport["losses"];
                 // $esports[$index]["country"] = $esport["country"];
                 // $esports[$index]["released"] = $esport["released"];
                 //
@@ -48,5 +51,4 @@ class EsportsController extends WebServiceInvoker {
         }
         return $esports;
     }
-
 }
