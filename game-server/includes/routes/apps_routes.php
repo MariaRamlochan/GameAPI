@@ -19,10 +19,15 @@ function handleGetAllApps(Request $request, Response $response, array $args) {
     $response_code = HTTP_OK;
     $app_model = new AppModel(); 
 
-    $app_model->setPaginationOptions($input_page_number, $input_per_page);
-
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
+
+    if (isset($filter_params["page"]) && isset($filter_params["per_page"])){
+        $app_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $app_model->setPaginationOptions(1, 1000);
+    }
+
     if (isset($filter_params["title"])) {
         // Fetch the list of apps matching the provided title.
         $apps = $app_model->getAppGameByName($filter_params["title"]);

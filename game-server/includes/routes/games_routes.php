@@ -21,10 +21,15 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
     $response_code = HTTP_OK;
     $game_model = new GameModel(); 
 
-    $game_model->setPaginationOptions($input_page_number, $input_per_page);
-
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
+
+    if (isset($filter_params["page"]) && isset($filter_params["per_page"])){
+        $game_model->setPaginationOptions($input_page_number, $input_per_page);
+    } else {
+        $game_model->setPaginationOptions(1, 1000);
+    }
+
     if (isset($filter_params["title"])) {
         // Fetch the list of games matching the provided title.
         $games = $game_model->getGameByTitle($filter_params["title"]);
@@ -44,8 +49,8 @@ function handleGetAllGames(Request $request, Response $response, array $args) {
         // No filtering by game title detected.
         $games = $game_model->getAll();
         //print_r(json_encode($games));
+    }  
 
-    }    
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //--
