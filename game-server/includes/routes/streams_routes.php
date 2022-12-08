@@ -1,4 +1,5 @@
 <?php
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -11,7 +12,8 @@ require_once __DIR__ . './../models/GameModel.php';
 
 // Callback for HTTP GET /streams
 //-- Supported filtering operation: by stream title.
-function handleGetAllStreams(Request $request, Response $response, array $args) {
+function handleGetAllStreams(Request $request, Response $response, array $args)
+{
     $input_page_number = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
     $input_per_page = filter_input(INPUT_GET, "per_page", FILTER_VALIDATE_INT);
 
@@ -20,7 +22,7 @@ function handleGetAllStreams(Request $request, Response $response, array $args) 
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
 
-    if (isset($input_page_number) && isset($input_per_page)){
+    if (isset($input_page_number) && isset($input_per_page)) {
         $stream_model->setPaginationOptions($input_page_number, $input_per_page);
     } else {
         $stream_model->setPaginationOptions(1, 1000);
@@ -34,7 +36,7 @@ function handleGetAllStreams(Request $request, Response $response, array $args) 
     } else {
         // No filtering by stream title detected.
         $streams = $stream_model->getAll();
-    }    
+    }
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //--
@@ -49,7 +51,8 @@ function handleGetAllStreams(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleGetStreamById(Request $request, Response $response, array $args) {
+function handleGetStreamById(Request $request, Response $response, array $args)
+{
     $stream_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -80,7 +83,8 @@ function handleGetStreamById(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleCreateStreams(Request $request, Response $response, array $args) {
+function handleCreateStreams(Request $request, Response $response, array $args)
+{
     $response_data = array();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
@@ -89,47 +93,45 @@ function handleCreateStreams(Request $request, Response $response, array $args) 
     $data = $request->getParsedBody();
 
 
-    foreach($data as $key => $single_stream){
-    // Fetch the info about the specified stream.
-        if(isset($single_stream["title"]) && isset($single_stream["streamer_id"]) 
-        && isset($single_stream["game_id"])){
+    foreach ($data as $key => $single_stream) {
+        // Fetch the info about the specified stream.
+        if (
+            isset($single_stream["title"]) && isset($single_stream["streamer_id"])
+            && isset($single_stream["game_id"])
+        ) {
 
             $title = $single_stream["title"];
             $streamerId = $single_stream["streamer_id"];
             $gameId = $single_stream["game_id"];
-            
 
-            if($game_model->getGameById($gameId)){
-                if($streamer_model->getStreamerById($streamerId)){
+
+            if ($game_model->getGameById($gameId)) {
+                if ($streamer_model->getStreamerById($streamerId)) {
 
                     $new_stream_record = array(
-                        "streamer_id"=>$streamerId,
-                        "game_id"=>$gameId,
-                        "title"=>$title
+                        "streamer_id" => $streamerId,
+                        "game_id" => $gameId,
+                        "title" => $title
                     );
-
-                }else {
+                } else {
                     $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid streamer id.");
                     $response->getBody()->write($response_data);
                     return $response->withStatus(HTTP_NOT_FOUND);
                 }
-            }else{
+            } else {
                 $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid game id.");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
             }
-
-            
-
-        }else{
+        } else {
             $response_data = makeCustomJSONError("UnsetParamaterException", "All paramaters must be set.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
-        
+
         $stream_model->createStreams($new_stream_record);
     }
-    
+
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
@@ -144,23 +146,24 @@ function handleCreateStreams(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleUpdateStreams(Request $request, Response $response, array $args) {
+function handleUpdateStreams(Request $request, Response $response, array $args)
+{
     $data = $request->getParsedBody();
     $response_code = HTTP_OK;
-    $stream_model = new StreamModel(); 
+    $stream_model = new StreamModel();
     $streamer_model = new StreamerModel();
     $game_model = new GameModel();
 
-     //Create Empty array to insert what we would like to update    
-     $existing_stream = array();
+    //Create Empty array to insert what we would like to update    
+    $existing_stream = array();
 
-    foreach($data as $key => $single_stream){
+    foreach ($data as $key => $single_stream) {
 
         //-- Check data set and retrieve the key and its value
-        if(isset($single_stream["stream_id"])){
+        if (isset($single_stream["stream_id"])) {
             //Retreive the stream Id for the specific stream we want to update
             $existing_stream_id = $single_stream["stream_id"];
-            if($stream_model->getStreamById($existing_stream_id) == null){
+            if ($stream_model->getStreamById($existing_stream_id) == null) {
                 $response_data = makeCustomJSONError("resourceNotFound", "no stream ID found");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
@@ -171,24 +174,24 @@ function handleUpdateStreams(Request $request, Response $response, array $args) 
         $gameId = $single_stream["game_id"];
 
         //-- We retrieve the key and its value
-        if(isset($single_stream["title"])){
+        if (isset($single_stream["title"])) {
             $existing_stream["title"] = $single_stream["title"];
         }
 
-        if(isset($streamerId)){
-            if($streamer_model->getStreamerById($streamerId)){
+        if (isset($streamerId)) {
+            if ($streamer_model->getStreamerById($streamerId)) {
                 $existing_stream["streamer_id"] = $single_stream["streamer_id"];
-            }else{
+            } else {
                 $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid streamer id.");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
             }
         }
 
-        if(isset($gameId)){
-            if($game_model->getGameById($gameId)){
+        if (isset($gameId)) {
+            if ($game_model->getGameById($gameId)) {
                 $existing_stream["game_id"] = $single_stream["game_id"];
-            }else{
+            } else {
                 $response_data = makeCustomJSONError("UnsetParamaterException", "Invalid game id.");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
@@ -212,26 +215,32 @@ function handleUpdateStreams(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleDeleteStreams(Request $request, Response $response, array $args) {
+function handleDeleteStreams(Request $request, Response $response, array $args)
+{
     $response_data = array();
     $response_code = HTTP_OK;
     $stream_model = new StreamModel();
     $data = $request->getParsedBody();
     $stream_id = "";
+    $stream_info = array();
 
     // Retreive the stream from the request's URI.
-    foreach($data as $key => $single_stream){
+    foreach ($data as $key => $single_stream) {
         $stream_id = $single_stream["stream_id"];
         if (isset($stream_id)) {
 
             // Fetch the info about the specified stream.
-            $stream_model->deleteStreams(array("stream_id"=>$stream_id));
-            if (!$data) {
+            $stream_info = $stream_model->deleteStreams(array("stream_id" => $stream_id));
+            if (!$stream_info) {
                 // No matches found?
                 $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified stream.");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
             }
+        } else {
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified app.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
         }
     }
 
@@ -249,7 +258,8 @@ function handleDeleteStreams(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleDeleteStream(Request $request, Response $response, array $args) {
+function handleDeleteStream(Request $request, Response $response, array $args)
+{
     $stream_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -259,15 +269,18 @@ function handleDeleteStream(Request $request, Response $response, array $args) {
     $stream_id = $args["stream_id"];
     if (isset($stream_id)) {
         // Fetch the info about the specified stream.
-        $stream_model->deleteStreams(array("stream_id"=>$stream_id));
-        $stream_info = "Stream has been DELETED";
+        $stream_info = $stream_model->deleteStreams(array("stream_id" => $stream_id));
         if (!$stream_info) {
             // No matches found?
             $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified stream.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
-    } 
+    } else {
+        $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified app.");
+        $response->getBody()->write($response_data);
+        return $response->withStatus(HTTP_NOT_FOUND);
+    }
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    

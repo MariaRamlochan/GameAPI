@@ -22,7 +22,7 @@ function handleGetAllReviews(Request $request, Response $response, array $args)
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    if (isset($input_page_number) && isset($input_per_page)){
+    if (isset($input_page_number) && isset($input_per_page)) {
         $review_model->setPaginationOptions($input_page_number, $input_per_page);
     } else {
         $review_model->setPaginationOptions(1, 1000);
@@ -93,7 +93,7 @@ function handleGetReviewsByAuthorId(Request $request, Response $response, array 
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    if (isset($input_page_number) && isset($input_per_page)){
+    if (isset($input_page_number) && isset($input_per_page)) {
         $review_model->setPaginationOptions($input_page_number, $input_per_page);
     } else {
         $review_model->setPaginationOptions(1, 1000);
@@ -135,7 +135,7 @@ function handleGetReviewsByGameIdAndAuthorId(Request $request, Response $respons
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    if (isset($input_page_number) && isset($input_per_page)){
+    if (isset($input_page_number) && isset($input_per_page)) {
         $review_model->setPaginationOptions($input_page_number, $input_per_page);
     } else {
         $review_model->setPaginationOptions(1, 1000);
@@ -178,7 +178,7 @@ function handleGetReviewsByGameId(Request $request, Response $response, array $a
     $response_code = HTTP_OK;
     $review_model = new ReviewModel();
 
-    if (isset($input_page_number) && isset($input_per_page)){
+    if (isset($input_page_number) && isset($input_per_page)) {
         $review_model->setPaginationOptions($input_page_number, $input_per_page);
     } else {
         $review_model->setPaginationOptions(1, 1000);
@@ -196,7 +196,7 @@ function handleGetReviewsByGameId(Request $request, Response $response, array $a
             return $response->withStatus(HTTP_NOT_FOUND);
         }
     }
-    
+
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //-- We verify the requested resource representation.    
@@ -374,14 +374,18 @@ function handleDeleteReview(Request $request, Response $response, array $args)
     $review_id = $args["review_id"];
     if (isset($review_id)) {
         // Fetch the info about the specified review.
-        $review_model->deleteReviews(array("review_id" => $review_id));
-        $review_info = "Review has been DELETED";
+
+        $review_info = $review_model->deleteReviews(array("review_id" => $review_id));
         if (!$review_info) {
             // No matches found?
             $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
             $response->getBody()->write($response_data);
             return $response->withStatus(HTTP_NOT_FOUND);
         }
+    } else {
+        $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified app.");
+        $response->getBody()->write($response_data);
+        return $response->withStatus(HTTP_NOT_FOUND);
     }
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
@@ -404,6 +408,7 @@ function handleDeleteReviews(Request $request, Response $response, array $args)
     $review_model = new ReviewModel();
     $data = $request->getParsedBody();
     $review_id = "";
+    $review_info = array();
 
     // Retreive the game from the request's URI.
     foreach ($data as $key => $single_review) {
@@ -411,13 +416,17 @@ function handleDeleteReviews(Request $request, Response $response, array $args)
         if (isset($review_id)) {
 
             // Fetch the info about the specified game.
-            $review_model->deleteReviews(array("review_id" => $review_id));
-            if (!$data) {
+            $review_info = $review_model->deleteReviews(array("review_id" => $review_id));
+            if (!$review_info) {
                 // No matches found?
                 $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified review.");
                 $response->getBody()->write($response_data);
                 return $response->withStatus(HTTP_NOT_FOUND);
             }
+        } else {
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified app.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
         }
     }
 
