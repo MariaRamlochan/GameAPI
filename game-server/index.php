@@ -26,7 +26,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 // TODO: change the name of the sub directory here. You also need to change it in .htaccess
 $app->setBasePath("/GameAPI/game-server");
 
-/*
+
 $jwt_secret = JWTManager::getSecretKey();
 $api_base_path = "/GameAPI/game-server";
 $app->add(new Tuupola\Middleware\JwtAuthentication([
@@ -46,7 +46,7 @@ $app->add(new Tuupola\Middleware\JwtAuthentication([
             }
         ]));
 
-        */
+        
 //-- Step 5) Include the files containing the definitions of the callbacks.
 require_once './includes/routes/token_routes.php';
 require_once './includes/routes/apps_routes.php';

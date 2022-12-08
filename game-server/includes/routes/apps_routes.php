@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/AppModel.php';
 require_once __DIR__ . './../helpers/Paginator.php';
+require_once __DIR__ . './../models/WSLoggingModel.php';
 
 // Callback for HTTP GET /apps
 //-- Supported filtering operation: by app name.
@@ -20,6 +21,11 @@ function handleGetAllApps(Request $request, Response $response, array $args)
     $response_data = array();
     $response_code = HTTP_OK;
     $app_model = new AppModel();
+
+    $logging_model = new WSLoggingModel();
+    //-- Get the decode JWT payload section. 
+    $decoded_jwt = $request->getAttribute('decoded_token_data');
+    $logging_model->logUserAction($decoded_jwt, "getListOfApps");
 
     if (isset($input_page_number) && isset($input_per_page)) {
         $app_model->setPaginationOptions($input_page_number, $input_per_page);
