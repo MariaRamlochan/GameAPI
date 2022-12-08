@@ -218,6 +218,9 @@ function handleUpdateGames(Request $request, Response $response, array $args)
         if (isset($single_game["game_url"])) {
             $existing_game["game_url"] = $single_game["game_url"];
         }
+        if (isset($single_game["publisher"])) {
+            $existing_game["publisher"] = $single_game["publisher"];
+        }
 
         //-- We perform an UPDATE SQL statement
         $game_model->updateGames($existing_game, array("game_id" => $existing_gameId));
